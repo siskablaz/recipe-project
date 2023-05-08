@@ -52,7 +52,7 @@ class Ingredient(db.Model):
     name = db.Column(db.String(20))
     complete = db.Column(db.Boolean, default=False)
     qty = db.Column(db.Integer)
-    shopping_list_id = db.Column(db.Integer, db.ForeignKey("Shopping_list.shopping_list_id"))
+    shopping_list_id = db.Column(db.Integer, db.ForeignKey("shopping_lists.shopping_list_id"))
 
     shopping_list = db.relationship("Shopping_list", back_populates="ingredient")
 
