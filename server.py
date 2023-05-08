@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
-# from model import connect_to_db, db
-# import crud
+from model import connect_to_db, db
+import crud
 
 from jinja2 import StrictUndefined
 
@@ -77,10 +77,47 @@ def register_user():
     email = request.form.get("email")
     password = request.form.get("password")
 
+    # print(crud.get_user_by_email('test@test.test'))
     user = crud.get_user_by_email(email)
+    
+
+    if user:
+        flash("Cannot create an account with that email. Try again.")
+        print("already an email")
+    else:
+        user = crud.create_user(email,password)
+        db.session.add(user)
+        db.session.commit()
+        flash("Account created! Please log in.")
+        print("created new email")
+
+    return redirect("/")
+
+@app.route('/login', methods=["POST"])
+def process_login():
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    user = crud.get_user_by_email(email)
+    if not user or user.password != password:
+        flash("The email or password you entered was incorrect.")
+        print("already an email or password incorrect")
+    else:
+        # Log in user by storing the user's email in session
+        session["user_email"] = user.email
+        flash(f"Welcome back, {user.email}!")
+        print("logged in successfully")
 
     return redirect("/")
 
 
+
+
+
+    
+
+
 if __name__ == "__main__":
+    connect_to_db(app)
     app.run(debug=True, host="0.0.0.0")

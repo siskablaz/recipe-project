@@ -1,17 +1,8 @@
-      <!doctype html>
-      <html>
-      <head>
-        <meta charset="UTF-8">
-        <title>AJAX Exercise</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-      
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/ajax-exercise.css">
-      
-      </head>
-      <body>
+{% extends 'base.html' %}
+{% block title %}Recipes Home{% endblock %}
+
+
+{% block body %}
 
         <ul>
             <li><a href="default.asp">Home</a></li>
@@ -20,11 +11,41 @@
             <li><a href="about.asp">About</a></li>
         </ul>
 
+        <h2>Create an Account</h2>
+      <form action="/users" method="POST">
+        <p>
+          Email <input type="text" name="email">
+        </p>
+
+        <p>
+          Password <input type="password" name="password">
+        </p>
+
+        <p>
+          <input type="submit">
+        </p>
+      </form>
+
+      <h2>Log In</h2>
+      <form action="/login" method="POST">
+        <p>
+          Email <input type="text" name="email">
+        </p>
+    
+        <p>
+          Password <input type="password" name="password">
+        </p>
+    
+        <p>
+          <input type="submit">
+        </p>
+      </form>
+
       
       <nav class="navbar navbar-dark bg-dark">
         <div class="container">
           <div class="navbar-header">
-            <span class="navbar-brand">AJAX Exercise</span>
+            <span class="navbar-brand"></span>
           </div>
         </div>
       </nav>
@@ -107,7 +128,8 @@
       </div>
       
       <script src="/static/recipe-home.js"></script>
+
+      {% endblock %}
       
-      </body>
-      </html>
+
     

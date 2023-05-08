@@ -12,10 +12,56 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
-    # ratings = db.relationship("Rating", back_populates="user")
+    fav_recipes = db.relationship("Fav_recipe", back_populates="user")
+    shopping_list = db.relationship("Shopping_list", back_populates="user")
 
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
+
+class Fav_recipe(db.Model):
+    """A user."""
+
+    __tablename__ = "fav_recipes"
+
+    fav_recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    recipe_id = db.Column(db.Integer, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+
+    user = db.relationship("User", back_populates="fav_recipes")
+
+    def __repr__(self):
+        return f"<User user_id={self.user_id} email={self.email}>"
+
+class Shopping_list(db.Model):
+    """A user."""
+
+    __tablename__ = "shopping_lists"
+
+    shopping_list_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+
+    user = db.relationship("User", back_populates="shopping_list")
+    ingredient = db.relationship("Ingredient", back_populates="shopping_list")
+
+class Ingredient(db.Model):
+    """A user."""
+
+    __tablename__ = "ingredients"
+
+    Ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(20))
+    complete = db.Column(db.Boolean, default=False)
+    qty = db.Column(db.Integer)
+    shopping_list_id = db.Column(db.Integer, db.ForeignKey("Shopping_list.shopping_list_id"))
+
+    shopping_list = db.relationship("Shopping_list", back_populates="ingredient")
+
+
+
+
+    def __repr__(self):
+        return f"<User user_id={self.user_id} email={self.email}>"
+
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///recipes", echo=True):
