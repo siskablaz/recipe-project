@@ -1,14 +1,17 @@
-"""Flask server for AJAX exercise.
-IMPORTANT: you don't need to change this file at all to finish
-the exercise!
-"""
+from flask import Flask, render_template, request, flash, session, redirect, jsonify
+# from model import connect_to_db, db
+# import crud
+
+from jinja2 import StrictUndefined
+
+app = Flask(__name__)
+app.secret_key = "dev"
+app.jinja_env.undefined = StrictUndefined
 
 
 import random
 
-from flask import Flask, request, render_template, jsonify
 
-app = Flask(__name__)
 
 FORTUNES = [
     "Tomorrow your code will <b>work properly</b>.",
@@ -31,7 +34,7 @@ DEFAULT_WEATHER = {'forecast': 'Kind of boring.', 'temp': '68F'}
 def index():
     """Show our index page."""
 
-    return render_template("index.html")
+    return render_template("homepage.html")
 
 
 @app.route('/fortune')
@@ -67,6 +70,16 @@ def order_melons():
         result_text = "You want to buy fewer than 1 melons? Huh?"
 
     return jsonify({'code': result_code, 'msg': result_text})
+
+@app.route('/users', methods=['POST'])
+def register_user():
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    user = crud.get_user_by_email(email)
+
+    return redirect("/")
 
 
 if __name__ == "__main__":
