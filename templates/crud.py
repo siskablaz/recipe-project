@@ -1,4 +1,11 @@
-from model import db, User, Movie, Rating, connect_to_db
+from model import db, User, connect_to_db
+
+def create_user(email, password):
+    """Create and return a new user."""
+
+    user = User(email=email, password=password)
+
+    return user
 
 def get_user_by_email(email):
     """Return a user by email."""
