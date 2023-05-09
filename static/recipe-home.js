@@ -128,26 +128,28 @@ function getRecipe (evt) {
     responseData = responseData.sort((a,b) => a.missedIngredientCount - b.missedIngredientCount);
 
 
-    let foodList ='';
+    const foodList =[];
     // foodList.sort((a,b) => a.value - b.value);
-    let eachMissingList = '';
+    const eachMissingList = [];
     
     for (const foodItem of responseData){
 
-      foodList+=(`<div>${foodItem.title}</div>
+      foodList.push(`<div>${foodItem.title}</div>
       <div><img src='${foodItem.image}'/></div>
       <div>Missed Ingredient Count : ${foodItem.missedIngredientCount}</div>
       `)
         
         for(const ingredient of foodItem.missedIngredients){
-        eachMissingList += (`<div>${ingredient.name}</div>`)
+        eachMissingList.push(`<div>${ingredient.name}</div>`)
       }
-        foodList +=(eachMissingList);
+     
+        foodList.push(eachMissingList.join(",").replaceAll(',',''));
     
     }
    
     document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
-    `<div>${foodList}</div>`);
+    `<div>${foodList[0]}</div>
+    <div>${foodList[1]}</div>`);
 
     }
     
