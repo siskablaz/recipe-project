@@ -112,21 +112,21 @@ document.querySelector('#weather-form').addEventListener('submit', showWeather);
 
 function getRecipe (evt) {
   evt.preventDefault();
+  
+  while (document.querySelector('#recipe-container').firstChild) {
+    document.querySelector('#recipe-container').firstChild.remove();
+  }
 
   const url = 'https://api.spoonacular.com/recipes';
   const ingredients = document.querySelector('#recipe-field').value;
   console.log(ingredients);
-  fetch(`${url}/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=${ingredients}&number=30`)
+  fetch(`${url}/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=${ingredients}&number=1`)
   .then((response) => response.json())
   .then((responseData) => {
     console.log(responseData)
 
     responseData = responseData.sort((a,b) => a.missedIngredientCount - b.missedIngredientCount);
 
-    const missingList = [];
-    for (const missingIngredient of responseData[0].missedIngredients){
-      missingList.push(missingIngredient.name)
-    }
 
     const foodList =[];
     // foodList.sort((a,b) => a.value - b.value);
@@ -146,13 +146,9 @@ function getRecipe (evt) {
       foodList.push(eachMissingList);
     
     }
-
-    document.querySelector('#recipe-image').insertAdjacentHTML('beforeend', 
-    `<div>${responseData[0].title}</div>
-    <div><img src='${responseData[0].image}'/></div>
-    <div>Missed Ingredient Count : ${responseData[0].missedIngredientCount}</div>
-    <div>${missingList}</div>
-    <div>${foodList}</div>`);
+   
+    document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
+    `<div>${foodList}</div>`);
 
     }
     
