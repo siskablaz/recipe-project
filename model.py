@@ -18,6 +18,22 @@ class User(db.Model):
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
 
+
+# class Fav_recipe(db.Model):
+#     """A user."""
+
+#     __tablename__ = "fav_recipes"
+
+#     fav_recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     recipe_id = db.Column(db.Integer, unique=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+
+#     user = db.relationship("User", back_populates="fav_recipes")
+
+#     def __repr__(self):
+#         return f"<Fav_recipe recipe_id={self.recipe_id} user_id={self.user_id}>"
+
+
 class Fav_recipe(db.Model):
     """A user."""
 

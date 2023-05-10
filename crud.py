@@ -21,10 +21,10 @@ def create_fav_recipe(recipe_id, user_id):
 
     return fav_recipe
 
-# def get_recipe_by_id(email):
-#     """Return a user by email."""
-
-#     return User.query.filter(User.email == email).first()
+def is_recipe_in_favorite(user_id, recipe_id):
+    """Return a Fav_recipe object given user id and recipe id"""
+     
+    return Fav_recipe.query.filter((Fav_recipe.user_id == user_id) & (Fav_recipe.recipe_id == recipe_id)).first() 
 
 
 if __name__ == "__main__":

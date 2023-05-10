@@ -119,6 +119,8 @@ def add_favorite():
     logged_in_email = session.get("user_email")
 
     recipe_id = request.json.get('recipeId')
+
+    print(recipe_id)
     # rating_score = request.form.get("rating")
 
     if logged_in_email is None:
@@ -126,18 +128,28 @@ def add_favorite():
         return redirect('/')
     else:
         user = crud.get_user_by_email(logged_in_email)
-        user_id = user.user_id
-        # left off here trying to make get recipe function!
+        this_user_id = user.user_id
+        # left off here trying to delete recipe function!
+        in_favorite = crud.is_recipe_in_favorite(this_user_id,recipe_id)
+        
+        print(in_favorite)
+        is_favorite = None
+        if in_favorite:
+            
+            db.session.delete(in_favorite)
+            db.session.commit()
+            is_favorite = False
+        else:
+            fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
+            db.session.add(fav_recipe)
+            db.session.commit()
+            is_favorite = True
 
 
-        fav_recipe = crud.create_fav_recipe(recipe_id, user_id)
-        db.session.add(fav_recipe)
-        print(fav_recipe)
-        db.session.commit()
 
         
-    print(recipe_id , user_id)
-    return jsonify({'rId': recipe_id,'uId': user_id})
+ 
+    return jsonify({'recipeId': recipe_id,'userId': this_user_id, 'isFavorite':is_favorite})
 
 
     

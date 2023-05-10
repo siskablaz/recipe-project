@@ -126,6 +126,7 @@ function getRecipe (evt) {
         foodList.push(eachMissingList.join(",").replaceAll(',',''));
         foodList.push(`<button onClick="addFavorite(${foodItem.id})" type="button" id="${foodItem.id}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>`);
 
+       
     }
     // console.log(foodList)
     document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
@@ -142,6 +143,15 @@ document.querySelector('#recipe-form').addEventListener('submit', getRecipe);
 
 function addFavorite(recipe_id) {
   console.log(recipe_id)
+  
+ 
+    // if(evt.target.classList.contains('is-favorite')){
+    //   evt.target.classList.remove('is-favorite');
+    // }
+    // else {
+    //   evt.target.classList.add('is-favorite');
+    // }
+ 
 
   // const button = evt.target;
   // const buttonId = button.id;
@@ -153,20 +163,34 @@ function addFavorite(recipe_id) {
       'Content-Type': 'application/json',
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      console.log(response)
+      return response.json()})
     .then((responseJson) => {
-      // console.log(responseJson);
-      // console.log(responseJson.code);
-      // console.log(responseJson.msg);
+      
+      console.log(responseJson.recipeId);
+      console.log(responseJson.isFavorite);
       // console.log(document.querySelector('#order-status'));
     
-      document.querySelector('#recipe-container').insertAdjacentHTML('afterbegin',
-      `<div>You have added recipe Id ${responseJson.rId}</div>`);
+      // Check about this tomorrow!!!
+      if (responseJson.isFavorite == true){
+        alert("You added a new recipe to favorites");
+        // evt.target.classList.remove('is-favorite');
+      }
+      else {
+        alert("You deleted recipe from favorites");
+        // evt.target.classList.add('is-favorite');
+      }
+     
 
+      
+
+     
 
     }
     
   )
 }
+
 // document.querySelector('.favoritesBtn').addEventListener('click', addFavorite);
 
