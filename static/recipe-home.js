@@ -40,17 +40,12 @@ document.querySelector('#weather-form').addEventListener('submit', showWeather);
 
 function orderMelons(evt) {
   evt.preventDefault();
-
-  // TODO: show the result message after your form
-  // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
-  const formInputs = {
-    qty: document.querySelector('#qty-field').value,
-    melon_type: document.querySelector('#melon-type-field').value,
-  };
+  const button = evt.target;
+  const buttonId = button.id;
 
   fetch('/order-melons.json', {
     method: 'POST',
-    body: JSON.stringify(formInputs),
+    body: JSON.stringify(buttonId),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -92,23 +87,6 @@ document.querySelector('#order-form').addEventListener('submit', orderMelons);
 //   }
 // document.querySelector('#get-dog-image').addEventListener('click', getDog);
 
-function showWeather(evt) {
-  evt.preventDefault();
-
-  const url = '/weather.json';
-  const zipcode = document.querySelector('#zipcode-field').value;
-
-  // TODO: request weather with that URL and show the forecast in #weather-info
-  fetch(`${url}?zipcode=${zipcode}`)
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log(responseData)
-      // document.querySelector('#weather-info').innerHTML = responseData[forecast];
-      document.querySelector('#weather-info').innerHTML = responseData.forecast;
-    })
-}
-
-document.querySelector('#weather-form').addEventListener('submit', showWeather);
 
 function getRecipe (evt) {
   evt.preventDefault();
@@ -120,17 +98,17 @@ function getRecipe (evt) {
   const url = 'https://api.spoonacular.com/recipes';
   const ingredients = document.querySelector('#recipe-field').value;
   console.log(ingredients);
-  fetch(`${url}/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=${ingredients}&number=1`)
+  fetch(`${url}/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=${ingredients}&number=10`)
   .then((response) => response.json())
   .then((responseData) => {
-    console.log(responseData)
+    // console.log(responseData)
 
     responseData = responseData.sort((a,b) => a.missedIngredientCount - b.missedIngredientCount);
 
 
     const foodList =[];
     // foodList.sort((a,b) => a.value - b.value);
-    const eachMissingList = [];
+    
     
     for (const foodItem of responseData){
 
@@ -138,22 +116,57 @@ function getRecipe (evt) {
       <div><img src='${foodItem.image}'/></div>
       <div>Missed Ingredient Count : ${foodItem.missedIngredientCount}</div>
       `)
-        
+
+      const eachMissingList = [];
         for(const ingredient of foodItem.missedIngredients){
+        
         eachMissingList.push(`<div>${ingredient.name}</div>`)
       }
      
         foodList.push(eachMissingList.join(",").replaceAll(',',''));
-    
+        foodList.push(`<button onClick="addFavorite(${foodItem.id})" type="button" id="${foodItem.id}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>`);
+
     }
-   
+    // console.log(foodList)
     document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
-    `<div>${foodList[0]}</div>
-    <div>${foodList[1]}</div>`);
+    `<div>${foodList.join(",").replaceAll(',','')}</div>`);
+    
+
+    }
+    
+    
+  )
+}
+document.querySelector('#recipe-form').addEventListener('submit', getRecipe);
+
+
+function addFavorite(recipe_id) {
+  console.log(recipe_id)
+
+  // const button = evt.target;
+  // const buttonId = button.id;
+  // console.log(buttonId)
+  fetch('/add-favorite', {
+    method: 'POST',
+    body: JSON.stringify({recipeId:recipe_id}),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      // console.log(responseJson);
+      // console.log(responseJson.code);
+      // console.log(responseJson.msg);
+      // console.log(document.querySelector('#order-status'));
+    
+      document.querySelector('#recipe-container').insertAdjacentHTML('afterbegin',
+      `<div>You have added recipe Id ${responseJson.rId}</div>`);
+
 
     }
     
   )
 }
+// document.querySelector('.favoritesBtn').addEventListener('click', addFavorite);
 
-document.querySelector('#recipe-form').addEventListener('submit', getRecipe);

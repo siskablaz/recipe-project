@@ -112,7 +112,32 @@ def process_login():
     return redirect("/")
 
 
+@app.route("/add-favorite", methods=["POST"])
+def add_favorite():
+    """Create a new recipe."""
 
+    logged_in_email = session.get("user_email")
+
+    recipe_id = request.json.get('recipeId')
+    # rating_score = request.form.get("rating")
+
+    if logged_in_email is None:
+        flash("You must log in to save a recipe to favorites")
+        return redirect('/')
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        user_id = user.user_id
+        # left off here trying to make get recipe function!
+
+
+        fav_recipe = crud.create_fav_recipe(recipe_id, user_id)
+        db.session.add(fav_recipe)
+        print(fav_recipe)
+        db.session.commit()
+
+        
+    print(recipe_id , user_id)
+    return jsonify({'rId': recipe_id,'uId': user_id})
 
 
     

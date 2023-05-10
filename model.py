@@ -30,7 +30,7 @@ class Fav_recipe(db.Model):
     user = db.relationship("User", back_populates="fav_recipes")
 
     def __repr__(self):
-        return f"<User user_id={self.user_id} email={self.email}>"
+        return f"<Fav_recipe recipe_id={self.recipe_id} user_id={self.user_id}>"
 
 class Shopping_list(db.Model):
     """A user."""
