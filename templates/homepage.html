@@ -4,12 +4,6 @@
 
 {% block body %}
 
-        <ul>
-            <li><a href="default.asp">Home</a></li>
-            <li><a href="news.asp">News</a></li>
-            <li><a href="contact.asp">Contact</a></li>
-            <li><a href="about.asp">About</a></li>
-        </ul>
 
         <h2>Create an Account</h2>
       <form action="/users" method="POST">
@@ -108,8 +102,30 @@
        
       
         <h2>Get Recipes</h2>
-      
-        <form id="recipe-form">
+
+        <form id="recipe-form" action="/get-recipes">
+        <div class="form-group">
+          Want recipe?
+          <input class="form-control" type="text" name="recipe" id="recipe-field"
+                  placeholder="recipe">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary mt-2" type="submit">Get It</button>
+        </div>
+      </form>
+    
+      <div id="recipe-container"> 
+        <!-- <input>
+          <button id="get-dog-image" class="btn btn-primary mt-2 mb-5">Get dog image</button>
+     -->
+      </div>
+
+
+
+
+
+        <!-- JS version -->
+        <!-- <form id="recipe-form">
           <div class="form-group">
             Want recipe?
             <input class="form-control" type="text" name="recipe" id="recipe-field"
@@ -120,14 +136,13 @@
           </div>
         </form>
       
-        <div id="recipe-container">
+        <div id="recipe-container"> -->
           <!-- <input>
             <button id="get-dog-image" class="btn btn-primary mt-2 mb-5">Get dog image</button> -->
-        </div>
       
-      </div>
+      <!-- </div> -->
       
-      <script src="/static/recipe-home.js"></script>
+      <!-- <script src="/static/recipe-home.js"></script> -->
 
       {% endblock %}
       

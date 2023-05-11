@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}All Movies{% endblock %}
+
+{% block body %}
+  <h1>All recipes</h1>
+
+  <ul>
+    {% for recipe in recipes %}
+    {#<form action="/add-favorite" method="POST">#}
+      <li>
+        <a href="/recipes/{{ recipe.recipe_id }}">
+          {{ recipe.title }}
+        </a>
+      <div><img src="{{recipe.image}}"/></div>
+      <div>Missed Ingredient Count : {{recipe.missed_ingredient_count}}</div>
+        
+        <button onClick = "addFavorite('{{recipe.recipe_id}}')" name="fav-button" id="fav-button" value="{{recipe.recipe_id}}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>
+      </li>
+    {#</form>#}
+    {% endfor %}
+
+  </ul>
+
+  <script src="/static/display_recipes.js"></script>
+{% endblock %}
+
+

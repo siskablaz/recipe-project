@@ -112,25 +112,33 @@ def process_login():
     return redirect("/")
 
 
-@app.route("/add-favorite", methods=["POST"])
+@app.route("/get-recipes")
+def show_recipes():
+    ingredients = request.args.get("recipe")
+
+    recipes = crud.get_recipes()
+
+    return render_template("recipe_results.html", recipes=recipes)
+
+
+
+@app.route("/add-favorite", methods=['POST'])
 def add_favorite():
-    """Create a new recipe."""
-
+    # recipe_id = request.form.get("fav-button")
+    print(request.json)
     logged_in_email = session.get("user_email")
-
-    recipe_id = request.json.get('recipeId')
-
-    print(recipe_id)
-    # rating_score = request.form.get("rating")
+    recipe_id = request.json.get("recipeId")
 
     if logged_in_email is None:
         flash("You must log in to save a recipe to favorites")
-        return redirect('/')
+        # This needs to be corrected
+        return (f'You need to login')
     else:
         user = crud.get_user_by_email(logged_in_email)
         this_user_id = user.user_id
-        # left off here trying to delete recipe function!
+       
         in_favorite = crud.is_recipe_in_favorite(this_user_id,recipe_id)
+        recipe_name = crud.get_recipe_by_id(recipe_id).title
         
         print(in_favorite)
         is_favorite = None
@@ -139,17 +147,73 @@ def add_favorite():
             db.session.delete(in_favorite)
             db.session.commit()
             is_favorite = False
+            
+            return (f'You removed {recipe_name} from favorites')
         else:
             fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
             db.session.add(fav_recipe)
             db.session.commit()
             is_favorite = True
+            
+            return (f'You added {recipe_name} to favorites')
+
+
+@app.route("/favorites")
+def favorites_page():
+
+    logged_in_email = session.get("user_email")
+    user = crud.get_user_by_email(logged_in_email)
+    user_id = user.user_id
+
+    recipes = crud.get_users_fav_recipes(user_id)
+
+
+
+
+    return render_template("favorites.html", user=user, recipes=recipes)
+  
+
+
+ 
+
+# @app.route("/add-favorite", methods=["POST"])
+# def add_favorite():
+#     """Create a new recipe."""
+
+#     logged_in_email = session.get("user_email")
+
+#     recipe_id = request.json.get('recipeId')
+
+#     print(recipe_id)
+#     # rating_score = request.form.get("rating")
+
+#     if logged_in_email is None:
+#         flash("You must log in to save a recipe to favorites")
+#         return redirect('/')
+#     else:
+#         user = crud.get_user_by_email(logged_in_email)
+#         this_user_id = user.user_id
+#         # left off here trying to delete recipe function!
+#         in_favorite = crud.is_recipe_in_favorite(this_user_id,recipe_id)
+        
+#         print(in_favorite)
+#         is_favorite = None
+#         if in_favorite:
+            
+#             db.session.delete(in_favorite)
+#             db.session.commit()
+#             is_favorite = False
+#         else:
+#             fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
+#             db.session.add(fav_recipe)
+#             db.session.commit()
+#             is_favorite = True
 
 
 
         
  
-    return jsonify({'recipeId': recipe_id,'userId': this_user_id, 'isFavorite':is_favorite})
+#     return jsonify({'recipeId': recipe_id,'userId': this_user_id, 'isFavorite':is_favorite})
 
 
     

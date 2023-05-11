@@ -15,9 +15,10 @@ os.system('createdb recipes')
 model.connect_to_db(server.app)
 model.db.create_all()
 
-res = requests.get('https://api.spoonacular.com/recipes/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=apples,flour,sugar,&number=10')
-
+res = requests.get('https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&query=dessert&fillIngredients=true&sort=min-missing-ingredients&number=75')
+# https://api.spoonacular.com/recipes/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=apples,flour,sugar&number=1
 recipe_results = res.json()
+recipe_results = recipe_results["results"]
 
 recipes_in_db = []
 for recipe in recipe_results:

@@ -13,6 +13,13 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+    <ul>
+        <li><a href="/templates/homepage.html">Home</a></li>
+        <li><a href="/favorites">Favorites</a></li>
+        <li><a href="contact.asp">Contact</a></li>
+        <li><a href="about.asp">About</a></li>
+    </ul>
+
     {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
       {{ msg }}
