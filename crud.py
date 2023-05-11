@@ -1,4 +1,4 @@
-from model import db, User, Fav_recipe, Shopping_list, Ingredient, connect_to_db
+from model import db, User, Fav_recipe, Shopping_list, Ingredient, Recipe, connect_to_db
 
 def create_user(email, password):
     """Create and return a new user."""
@@ -12,6 +12,16 @@ def get_user_by_email(email):
     """Return a user by email."""
 
     return User.query.filter(User.email == email).first()
+
+def create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
+    missed_ingredients, title):
+
+    recipe = Recipe(recipe_id=recipe_id, image=image, image_type=image_type, 
+    likes=likes, missed_ingredient_count=missed_ingredient_count, 
+    missed_ingredients=missed_ingredients, title=title)
+
+    return recipe
+    
 
 
 def create_fav_recipe(recipe_id, user_id):

@@ -19,19 +19,23 @@ class User(db.Model):
         return f"<User user_id={self.user_id} email={self.email}>"
 
 
-# class Fav_recipe(db.Model):
-#     """A user."""
+class Recipe(db.Model):
+    """A user."""
 
-#     __tablename__ = "fav_recipes"
+    __tablename__ = "recipes"
 
-#     fav_recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-#     recipe_id = db.Column(db.Integer, unique=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    recipe_id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String)
+    image_type = db.Column(db.String(10))
+    likes = db.Column(db.Integer)
+    missed_ingredient_count = db.Column(db.Integer)
+    missed_ingredients = db.Column(db.ARRAY(db.String))
+    title = db.Column(db.String)
 
-#     user = db.relationship("User", back_populates="fav_recipes")
+    fav_recipes = db.relationship("Fav_recipe", back_populates="recipes")
 
-#     def __repr__(self):
-#         return f"<Fav_recipe recipe_id={self.recipe_id} user_id={self.user_id}>"
+    def __repr__(self):
+        return f"<Recipe recipe_id={self.recipe_id}>"
 
 
 class Fav_recipe(db.Model):
@@ -40,10 +44,12 @@ class Fav_recipe(db.Model):
     __tablename__ = "fav_recipes"
 
     fav_recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    recipe_id = db.Column(db.Integer, unique=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.recipe_id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     user = db.relationship("User", back_populates="fav_recipes")
+    recipes = db.relationship("Recipe", back_populates="fav_recipes")
+
 
     def __repr__(self):
         return f"<Fav_recipe recipe_id={self.recipe_id} user_id={self.user_id}>"
