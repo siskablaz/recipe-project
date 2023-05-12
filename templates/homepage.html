@@ -120,6 +120,25 @@
      -->
       </div>
 
+      <h2>Show DB Recipes</h2>
+
+      <form id="db-recipe-form" action="/get-db-recipes" method="POST">
+      <div class="form-group">
+        Want recipe?
+        <input class="form-control" type="text" name="recipe-input" id="db-recipe-field"
+                placeholder="recipe">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary mt-2" type="submit">Get It</button>
+      </div>
+    </form>
+  
+    <div id=db-recipe-container"> 
+      <!-- <input>
+        <button id="get-dog-image" class="btn btn-primary mt-2 mb-5">Get dog image</button>
+   -->
+    </div>
+
 
 
 
@@ -142,7 +161,7 @@
       
       <!-- </div> -->
       
-      <!-- <script src="/static/recipe-home.js"></script> -->
+      <script src="/static/recipe-home.js"></script>
 
       {% endblock %}
       

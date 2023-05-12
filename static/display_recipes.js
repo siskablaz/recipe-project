@@ -1,5 +1,5 @@
-function addFavorite(recipe_id) {
-
+function addFavorite(recipe_id, event) {
+    console.log(event.target)
     
    
     //   if(evt.target.classList.contains('is-favorite')){

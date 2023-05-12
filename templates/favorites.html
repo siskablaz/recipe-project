@@ -14,7 +14,8 @@
 <ul>
     {% for recipe in recipes %}
         <li>
-            {{ recipe.title }}:
+            {{ recipe.title }}
+            <div><img src="{{recipe.image}}"/></div>
     
         </li>
     {% endfor %}

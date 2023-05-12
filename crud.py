@@ -1,4 +1,5 @@
 from model import db, User, Fav_recipe, Shopping_list, Ingredient, Recipe, connect_to_db
+import model
 
 def create_user(email, password):
     """Create and return a new user."""
@@ -34,7 +35,7 @@ def create_fav_recipe(recipe_id, user_id):
     fav_recipe = Fav_recipe(recipe_id=recipe_id, user_id=user_id)
 
     return fav_recipe
-    
+
 
 def is_recipe_in_favorite(user_id, recipe_id):
     """Return a Fav_recipe object given user id and recipe id"""
@@ -52,15 +53,134 @@ def get_users_fav_recipes(user_id):
             
     return recipes
 
+def create_recipe_api(recipe_response):
+    
+    recipes_in_db = []
+    for recipe in recipe_response:
+        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title = (
+            recipe["id"],
+            recipe["image"],
+            recipe["imageType"],
+            recipe["likes"],
+            recipe["missedIngredientCount"],
+            recipe["missedIngredients"],
+            recipe["title"],
+        
+        )
+    
+        missed_ingredients_list = []
+        for ingredient in missed_ingredients:
+            missed_ingredients_list.append(ingredient["name"])
+
+        db_recipe = create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
+        missed_ingredients_list, title)
+        
+        recipes_in_db.append(db_recipe)
 
 
-def get_recipes():
+    model.db.session.add_all(recipes_in_db)
+    model.db.session.commit()
+
+    return recipes_in_db
+
+
+
+def get_recipes(recipe_response):
 
     # recipes_list = []
     recipes_list = Recipe.query.filter(Recipe.missed_ingredient_count == 4).all()
     # for miss_ingredients in all_miss_ingredients:
     #     if ingredients.in_(miss_ingredients):
     return recipes_list
+
+
+def create_shopping_list(user_id):
+
+    shop_list = Shopping_list(user_id)
+    return shop_list
+
+
+def create_ingredient(name,complete,qty,shopping_list_id):
+
+    ingredient = Ingredient(name,complete,qty,shopping_list_id)
+    return ingredient
+
+
+
+def add_recipes_to_db(res):
+
+    recipe_results = res.json()
+    recipe_results = recipe_results["results"]
+
+    print(recipe_results)
+
+    recipes_in_db = []
+    return_recipes = []
+    for recipe in recipe_results:
+        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title = (
+            recipe["id"],
+            recipe["image"],
+            recipe["imageType"],
+            recipe["likes"],
+            recipe["missedIngredientCount"],
+            recipe["missedIngredients"],
+            recipe["title"],
+        
+        )
+
+    #     missed_ingredients => list containing all ingredient objects
+    #     {
+    #     "aisle": "Baking",
+    #     "amount": 1.0,
+    #     "id": 18371,
+    #     "image": "https://spoonacular.com/cdn/ingredients_100x100/white-powder.jpg",
+    #     "meta": [],
+    #     "name": "baking powder",
+    #     "original": "1 tsp baking powder",
+    #     "originalName": "baking powder",
+    #     "unit": "tsp",
+    #     "unitLong": "teaspoon",
+    #     "unitShort": "tsp"
+    # },
+        missed_ingredients_list = []
+        for ingredient in missed_ingredients:
+            missed_ingredients_list.append(ingredient["name"])
+            # ingredient.image
+            # imgredient.originalName
+
+            # ("Name", "Location", "color")
+            # [Firstthing, Secondthing, Thirdthing]
+            # "Name, Location, color"
+            # split on the comma to pull out data?
+
+        recipe_in_db = Recipe.query.filter(Recipe.recipe_id == recipe_id).first()
+        
+        print(title)
+        print(recipe_id)
+        print(recipe_in_db)
+
+        
+
+        if not recipe_in_db:
+            db_recipe = create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
+            missed_ingredients_list, title)
+
+
+            
+            recipes_in_db.append(db_recipe)
+            return_recipes.append(db_recipe)
+
+        else:
+            return_recipes.append(recipe_in_db)
+    
+
+
+
+    model.db.session.add_all(recipes_in_db)
+    model.db.session.commit()
+
+    return return_recipes
+
 
 
 

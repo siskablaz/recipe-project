@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db, db
 import crud
+import requests
 
 from jinja2 import StrictUndefined
 
@@ -86,6 +87,8 @@ def register_user():
         print("already an email")
     else:
         user = crud.create_user(email,password)
+        # TODO also create shopping list for user that was created
+
         db.session.add(user)
         db.session.commit()
         flash("Account created! Please log in.")
@@ -98,6 +101,7 @@ def process_login():
 
     email = request.form.get("email")
     password = request.form.get("password")
+    
 
     user = crud.get_user_by_email(email)
     if not user or user.password != password:
@@ -106,17 +110,60 @@ def process_login():
     else:
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
+        # TODO Add shopping list to session
         flash(f"Welcome back, {user.email}!")
         print("logged in successfully")
 
     return redirect("/")
 
 
+# @app.route("/get-recipes.json", methods=['POST'])
+# def show_recipes():
+#     # recipe_list = []
+#     # for recipe in recipeResponse:
+
+#     recipe_response = request.json.get('recipeResponse')
+#     print(recipe_response)
+#     print(recipe_response)
+#     print(recipe_response)
+#     print(recipe_response)
+
+#     recipes=[recipe_response,recipe_response]
+#     crud.create_recipe_api(recipes)
+
+
+
+   
+
+#     return render_template("recipe_results.html", recipes=recipes)
+
+@app.route("/get-db-recipes", methods=['POST'])
+def show_db_recipes():
+ 
+    recipe_input = request.form.get("recipe-input")
+
+    print(recipe_input)
+
+    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&fillIngredients=true&sort=min-missing-ingredients&number=10')
+    
+    recipes = crud.add_recipes_to_db(res)
+
+    return render_template("recipe_results.html", recipes=recipes)
+
+
+
+
+    # crud.create_recipe_api(recipes)
+
+   
+
+    return render_template("homepage.html")
+
 @app.route("/get-recipes")
 def show_recipes():
     ingredients = request.args.get("recipe")
 
-    recipes = crud.get_recipes()
+    recipes = crud.get_recipes(ingredients)
 
     return render_template("recipe_results.html", recipes=recipes)
 
