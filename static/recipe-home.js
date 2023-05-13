@@ -88,64 +88,64 @@ document.querySelector('#order-form').addEventListener('submit', orderMelons);
 // document.querySelector('#get-dog-image').addEventListener('click', getDog);
 
 
-// function getRecipe (evt) {
-//   evt.preventDefault();
+function getRecipe (evt) {
+  evt.preventDefault();
   
-//   while (document.querySelector('#recipe-container').firstChild) {
-//     document.querySelector('#recipe-container').firstChild.remove();
-//   }
+  while (document.querySelector('#recipe-container').firstChild) {
+    document.querySelector('#recipe-container').firstChild.remove();
+  }
 
-//   const url = 'https://api.spoonacular.com/recipes';
-//   const ingredients = document.querySelector('#recipe-field').value;
-//   console.log(ingredients);
-//   fetch(`${url}/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients=${ingredients}&fillIngredients=true&sort=min-missing-ingredients&number=10`)
-//   .then((response) => response.json())
-//   .then((responseData) => {
-//     // console.log(responseData)
+  const url = 'https://api.spoonacular.com/recipes';
+  const ingredients = document.querySelector('#recipe-field').value;
+  console.log(ingredients);
+  fetch(`${url}/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients=${ingredients}&fillIngredients=true&sort=min-missing-ingredients&number=10`)
+  .then((response) => response.json())
+  .then((responseData) => {
+    // console.log(responseData)
 
-//     // responseData = responseData.sort((a,b) => a.missedIngredientCount - b.missedIngredientCount);
-//     let recipeResponse = responseData["results"][0]
-//     console.log(recipeResponse)
-//     fetch('/get-recipes.json', {
-//       method: 'POST',
-//       body: JSON.stringify({recipeResponse:recipeResponse}),
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     })
-//       .then((response) => response.json())
-//       .then((responseJson) => {
-//         console.log(responseJson);
-//         console.log(responseJson.code);
-//         console.log(responseJson.msg);
-//         console.log(document.querySelector('#order-status'));
+    // responseData = responseData.sort((a,b) => a.missedIngredientCount - b.missedIngredientCount);
+    let recipeResponse = responseData["results"][0]
+    console.log(recipeResponse)
+    fetch('/get-recipes.json', {
+      method: 'POST',
+      body: JSON.stringify({recipeResponse:recipeResponse}),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        console.log(responseJson.code);
+        console.log(responseJson.msg);
+        console.log(document.querySelector('#order-status'));
 
-    // const foodList =[];
-    // foodList.sort((a,b) => a.value - b.value);
+    const foodList =[];
+    foodList.sort((a,b) => a.value - b.value);
     
     
-//     for (const foodItem of responseData){
+    for (const foodItem of responseData){
 
-//       foodList.push(`<div>${foodItem.title}</div>
-//       <div><img src='${foodItem.image}'/></div>
-//       <div>Missed Ingredient Count : ${foodItem.missedIngredientCount}</div>
-//       `)
+      foodList.push(`<div>${foodItem.title}</div>
+      <div><img src='${foodItem.image}'/></div>
+      <div>Missed Ingredient Count : ${foodItem.missedIngredientCount}</div>
+      `)
 
-//       const eachMissingList = [];
-//         for(const ingredient of foodItem.missedIngredients){
+      const eachMissingList = [];
+        for(const ingredient of foodItem.missedIngredients){
         
-//         eachMissingList.push(`<div>${ingredient.name}</div>`)
-//       }
+        eachMissingList.push(`<div>${ingredient.name}</div>`)
+      }
      
-//         foodList.push(eachMissingList.join(",").replaceAll(',',''));
-//         foodList.push(`<button onClick="addFavorite(${foodItem.id})" type="button" id="${foodItem.id}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>`);
+        foodList.push(eachMissingList.join(",").replaceAll(',',''));
+        foodList.push(`<button onClick="addFavorite(${foodItem.id})" type="button" id="${foodItem.id}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>`);
 
        
-//     }
-//     // console.log(foodList)
-//     document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
-//     `<div>${foodList.join(",").replaceAll(',','')}</div>`);
-    //     }   
+    }
+    // console.log(foodList)
+    document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
+    `<div>${foodList.join(",").replaceAll(',','')}</div>`);
+        }   
       })
  })
 }

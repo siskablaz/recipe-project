@@ -155,8 +155,6 @@ def show_db_recipes():
 
     # crud.create_recipe_api(recipes)
 
-   
-
     return render_template("homepage.html")
 
 @app.route("/get-recipes")
@@ -263,7 +261,19 @@ def favorites_page():
 #     return jsonify({'recipeId': recipe_id,'userId': this_user_id, 'isFavorite':is_favorite})
 
 
+@app.route("/recipes/<recipe_id>")
+def recipe_details(recipe_id):
+
     
+    recipe_object = crud.get_recipe_by_id(recipe_id)
+
+
+
+    return render_template("recipe_details.html", recipe=recipe_object)
+  
+
+
+
 
 
 if __name__ == "__main__":
