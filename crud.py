@@ -15,11 +15,11 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 def create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-    missed_ingredients, title):
+    missed_ingredients, title, instructions, ingredients):
 
     recipe = Recipe(recipe_id=recipe_id, image=image, image_type=image_type, 
     likes=likes, missed_ingredient_count=missed_ingredient_count, 
-    missed_ingredients=missed_ingredients, title=title)
+    missed_ingredients=missed_ingredients, title=title, instructions=instructions, ingredients=ingredients)
 
     return recipe
 
@@ -57,7 +57,8 @@ def create_recipe_api(recipe_response):
     
     recipes_in_db = []
     for recipe in recipe_response:
-        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title = (
+        recipe_id, image, image_type, likes, missed_ingredient_count, 
+        missed_ingredients, title, instructions, ingredients = (
             recipe["id"],
             recipe["image"],
             recipe["imageType"],
@@ -65,6 +66,8 @@ def create_recipe_api(recipe_response):
             recipe["missedIngredientCount"],
             recipe["missedIngredients"],
             recipe["title"],
+            recipe["analyzedInstructions"],
+            recipe["extendedIngredients"]
         
         )
     
@@ -72,8 +75,18 @@ def create_recipe_api(recipe_response):
         for ingredient in missed_ingredients:
             missed_ingredients_list.append(ingredient["name"])
 
+
+        analyzed_instructions_list =[]
+        for instruction in instructions:
+            for step in instruction["steps"]:
+                analyzed_instructions_list.append(step["step"])
+
+        ingredients_list = []
+        for ingredient in ingredients:
+            ingredients_list.append(ingredient["originalName"])
+
         db_recipe = create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-        missed_ingredients_list, title)
+        missed_ingredients_list, title, analyzed_instructions_list, ingredients_list)
         
         recipes_in_db.append(db_recipe)
 
@@ -117,7 +130,7 @@ def add_recipes_to_db(res):
     recipes_in_db = []
     return_recipes = []
     for recipe in recipe_results:
-        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title = (
+        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title, instructions, ingredients = (
             recipe["id"],
             recipe["image"],
             recipe["imageType"],
@@ -125,6 +138,8 @@ def add_recipes_to_db(res):
             recipe["missedIngredientCount"],
             recipe["missedIngredients"],
             recipe["title"],
+            recipe["analyzedInstructions"],
+            recipe["extendedIngredients"]
         
         )
 
@@ -145,6 +160,15 @@ def add_recipes_to_db(res):
         missed_ingredients_list = []
         for ingredient in missed_ingredients:
             missed_ingredients_list.append(ingredient["name"])
+
+        analyzed_instructions_list =[]
+        for instruction in instructions:
+            for step in instruction["steps"]:
+                analyzed_instructions_list.append(step["step"])
+
+        ingredients_list = []
+        for ingredient in ingredients:
+            ingredients_list.append(ingredient["originalName"])
             # ingredient.image
             # imgredient.originalName
 
@@ -163,7 +187,7 @@ def add_recipes_to_db(res):
 
         if not recipe_in_db:
             db_recipe = create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-            missed_ingredients_list, title)
+            missed_ingredients_list, title, analyzed_instructions_list, ingredients_list)
 
 
             

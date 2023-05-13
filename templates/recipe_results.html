@@ -6,7 +6,7 @@
 
   <ul>
     {% for recipe in recipes %}
-    {#<form action="/add-favorite" method="POST">#}
+   
       <li>
         <a href="/recipes/{{ recipe.recipe_id }}">
           {{ recipe.title }}
@@ -16,6 +16,7 @@
       {% for ingredient in recipe.missed_ingredients %}
         <div> <button name="shop-button" id="shop-button" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button></div>
       {% endfor%}
+    {#<form action="/add-favorite" method="POST">#}
         <button onClick = "addFavorite('{{recipe.recipe_id}}', event)" name="fav-button" id="fav-button" value="{{recipe.recipe_id}}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>
       </li>
     {#</form>#}

@@ -142,11 +142,14 @@ def show_db_recipes():
  
     recipe_input = request.form.get("recipe-input")
 
-    print(recipe_input)
-
-    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&fillIngredients=true&sort=min-missing-ingredients&number=10')
     
+
+    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
+  
+
     recipes = crud.add_recipes_to_db(res)
+
+   
 
     return render_template("recipe_results.html", recipes=recipes)
 
@@ -264,6 +267,9 @@ def favorites_page():
 @app.route("/recipes/<recipe_id>")
 def recipe_details(recipe_id):
 
+    print(recipe_id) 
+
+    # res = requests.get(f'https://api.spoonacular.com/recipes/{recipe_id}/analyzedInstructions?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2)
     
     recipe_object = crud.get_recipe_by_id(recipe_id)
 

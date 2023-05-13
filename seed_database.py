@@ -15,14 +15,14 @@ os.system('createdb recipes')
 model.connect_to_db(server.app)
 model.db.create_all()
 
-res = requests.get('https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&query=dessert&fillIngredients=true&sort=min-missing-ingredients&number=75')
+res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
 # https://api.spoonacular.com/recipes/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=apples,flour,sugar&number=1
 recipe_results = res.json()
 recipe_results = recipe_results["results"]
 
 recipes_in_db = []
 for recipe in recipe_results:
-    recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title = (
+    recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title, instructions,ingredients = (
         recipe["id"],
         recipe["image"],
         recipe["imageType"],
@@ -30,7 +30,9 @@ for recipe in recipe_results:
         recipe["missedIngredientCount"],
         recipe["missedIngredients"],
         recipe["title"],
-    
+        recipe["analyzedInstructions"],
+        recipe["extendedIngredients"]
+
     )
 
 #     missed_ingredients => list containing all ingredient objects
@@ -50,6 +52,15 @@ for recipe in recipe_results:
     missed_ingredients_list = []
     for ingredient in missed_ingredients:
         missed_ingredients_list.append(ingredient["name"])
+
+    analyzed_instructions_list =[]
+    for instruction in instructions:
+        for step in instruction["steps"]:
+            analyzed_instructions_list.append(step["step"])
+
+    ingredients_list = []
+    for ingredient in ingredients:
+        ingredients_list.append(ingredient["originalName"])
         # ingredient.image
         # imgredient.originalName
 
@@ -60,7 +71,7 @@ for recipe in recipe_results:
 
 
     db_recipe = crud.create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-    missed_ingredients_list, title)
+    missed_ingredients_list, title, analyzed_instructions_list, ingredients_list)
     
     recipes_in_db.append(db_recipe)
 

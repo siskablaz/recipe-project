@@ -31,11 +31,15 @@ class Recipe(db.Model):
     missed_ingredient_count = db.Column(db.Integer)
     missed_ingredients = db.Column(db.ARRAY(db.String))
     title = db.Column(db.String)
+    instructions = db.Column(db.ARRAY(db.String))
+    ingredients = db.Column(db.ARRAY(db.String))
 
     fav_recipes = db.relationship("Fav_recipe", back_populates="recipes")
 
     def __repr__(self):
         return f"<Recipe recipe_id={self.recipe_id}>"
+
+
 
 
 class Fav_recipe(db.Model):
