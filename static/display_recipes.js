@@ -34,4 +34,25 @@ function addFavorite(recipe_id, event) {
   
   // document.querySelector('.favoritesBtn').addEventListener('click', addFavorite);
   
+  function addShoppingList(ingredient_name, event) {
+    
+ 
+
+    fetch('/add-shopping', {
+      method: 'POST',
+      body: JSON.stringify({ingredientName:ingredient_name}),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        console.log(response)
+        return response.text()})
+      .then((responseMsg) => {
+        
+        alert(responseMsg)
   
+      }
+      
+    )
+  }

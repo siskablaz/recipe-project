@@ -74,10 +74,9 @@ class Ingredient(db.Model):
 
     __tablename__ = "ingredients"
 
-    Ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    name = db.Column(db.String(20))
+    ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(50))
     complete = db.Column(db.Boolean, default=False)
-    qty = db.Column(db.Integer)
     shopping_list_id = db.Column(db.Integer, db.ForeignKey("shopping_lists.shopping_list_id"))
 
     shopping_list = db.relationship("Shopping_list", back_populates="ingredient")
@@ -86,7 +85,7 @@ class Ingredient(db.Model):
 
 
     def __repr__(self):
-        return f"<User user_id={self.user_id} email={self.email}>"
+        return f"<User ingredient_id={self.ingredient_id} name={self.name}>"
 
 
 

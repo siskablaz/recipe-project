@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping List{% endblock %}
+
+{% block body %}
+
+
+
+{% if session.get('user_email') %}
+
+
+<h1>{{ user.user_id }}'s Shopping List</h1>
+
+<ul>
+    {% for ingredient in shopping_list %}
+        <li>
+            {{ ingredient.name }}
+    
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endif %}
+
+
+
+{% if session.get('user_email') == None %}
+    <h2>Please log in to view Shopping List!</h2>
+{% endif %}
+
+{% endblock %}

@@ -145,9 +145,9 @@ function getRecipe (evt) {
     // console.log(foodList)
     document.querySelector('#recipe-container').insertAdjacentHTML('beforeend', 
     `<div>${foodList.join(",").replaceAll(',','')}</div>`);
-        }   
+        })   
       })
- })
-}
+ }
+
 // document.querySelector('#recipe-form').addEventListener('submit', getRecipe);
 

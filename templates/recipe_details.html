@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
-{% block title %}All Movies{% endblock %}
+{% block title %}Recipe details{% endblock %}
 
 {% block body %}
   <h1>All recipes</h1>
 
-<div>
-    {{recipe.title}}
-</div>
+<h2>{{recipe.title}}</h2>
+
+<img src="{{recipe.image}}" alt="{{recipe.title}} image">
+
+{% for ingredient in recipe.ingredients %}
+<div>{{ingredient}}</div>
+{% endfor %}
+<div> </div>
+{% for instruction in recipe.instructions %}
+<div>{{instruction}}</div>
+{% endfor %}
 
 {% endblock %}

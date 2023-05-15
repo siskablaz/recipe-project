@@ -73,7 +73,7 @@ def create_recipe_api(recipe_response):
     
         missed_ingredients_list = []
         for ingredient in missed_ingredients:
-            missed_ingredients_list.append(ingredient["name"])
+            missed_ingredients_list.append(ingredient["name"].replace('"',' '))
 
 
         analyzed_instructions_list =[]
@@ -109,14 +109,35 @@ def get_recipes(recipe_response):
 
 def create_shopping_list(user_id):
 
-    shop_list = Shopping_list(user_id)
+    shop_list = Shopping_list(user_id = user_id)
     return shop_list
 
 
-def create_ingredient(name,complete,qty,shopping_list_id):
+def create_ingredient(name,complete,shopping_list_id):
 
-    ingredient = Ingredient(name,complete,qty,shopping_list_id)
+    ingredient = Ingredient(name=name,complete=complete,shopping_list_id=shopping_list_id)
     return ingredient
+
+
+
+def get_ingredient_by_shopping_list_id(shopping_list_id):
+
+    return Ingredient.query.filter(Ingredient.shopping_list_id == shopping_list__id).first()
+
+
+
+def in_shopping_list_by_name(shopping_list_id, ingredient_name):
+
+    return Ingredient.query.filter((Ingredient.name == ingredient_name) & (Ingredient.shopping_list_id == shopping_list_id)).first()
+
+
+    
+
+
+
+def get_shopping_list_by_user_id(user_id):
+    
+    return Shopping_list.query.filter(Shopping_list.user_id == user_id).first()
 
 
 
@@ -125,7 +146,7 @@ def add_recipes_to_db(res):
     recipe_results = res.json()
     recipe_results = recipe_results["results"]
 
-    print(recipe_results)
+
 
     recipes_in_db = []
     return_recipes = []
@@ -159,7 +180,8 @@ def add_recipes_to_db(res):
     # },
         missed_ingredients_list = []
         for ingredient in missed_ingredients:
-            missed_ingredients_list.append(ingredient["name"])
+            missed_ingredients_list.append(ingredient["name"].replace("''",""))
+           
 
         analyzed_instructions_list =[]
         for instruction in instructions:
@@ -179,9 +201,6 @@ def add_recipes_to_db(res):
 
         recipe_in_db = Recipe.query.filter(Recipe.recipe_id == recipe_id).first()
         
-        print(title)
-        print(recipe_id)
-        print(recipe_in_db)
 
         
 

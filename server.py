@@ -91,8 +91,17 @@ def register_user():
 
         db.session.add(user)
         db.session.commit()
+
+        
+
         flash("Account created! Please log in.")
         print("created new email")
+ 
+        
+        shopping_list = crud.create_shopping_list(user.user_id)
+
+        db.session.add(shopping_list)
+        db.session.commit()
 
     return redirect("/")
 
@@ -111,6 +120,7 @@ def process_login():
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
         # TODO Add shopping list to session
+  
         flash(f"Welcome back, {user.email}!")
         print("logged in successfully")
 
@@ -211,9 +221,14 @@ def favorites_page():
 
     logged_in_email = session.get("user_email")
     user = crud.get_user_by_email(logged_in_email)
-    user_id = user.user_id
 
-    recipes = crud.get_users_fav_recipes(user_id)
+    if user is None:
+        flash("You must log in to save a recipe to favorites")
+        return redirect("/")
+    else:
+        user_id = user.user_id
+
+        recipes = crud.get_users_fav_recipes(user_id)
 
 
 
@@ -276,10 +291,77 @@ def recipe_details(recipe_id):
 
 
     return render_template("recipe_details.html", recipe=recipe_object)
-  
+
+
+@app.route("/add-shopping", methods=['POST'])
+def add_shopping():
+    # recipe_id = request.form.get("fav-button")
+    
+    logged_in_email = session.get("user_email")
+    ingredient_name = request.json.get("ingredientName")
+    
+
+    if logged_in_email is None:
+        flash("You must log in to save a recipe to favorites")
+        # This needs to be corrected
+        return (f'You need to login')
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        if user is None:
+            flash("You must log in to save a recipe to favorites")
+        # This needs to be corrected
+            return (f'You need to login')
+        else:
+            this_user_id = user.user_id
+            shopping_list_id = crud.get_shopping_list_by_user_id(this_user_id).shopping_list_id
+
+            print(shopping_list_id)
+            print(ingredient_name)
+
+            in_shopping_list = crud.in_shopping_list_by_name(shopping_list_id,ingredient_name)
+        
+            
+            print(in_shopping_list)
+            is_shopping_list = None
+            if in_shopping_list:
+                
+                db.session.delete(in_shopping_list)
+                db.session.commit()
+                is_shopping_list = False
+                
+                return (f'You removed {ingredient_name} from shopping_list')
+            else:
+                
+                ingredient = crud.create_ingredient(ingredient_name, False, shopping_list_id)
+                db.session.add(ingredient)
+                db.session.commit()
+                is_shopping_list = True
+                
+                return (f'You added {ingredient_name} to shopping_list')
+
+
+@app.route("/shopping-list")
+def shopping_list_page():
+
+    logged_in_email = session.get("user_email")
+    user = crud.get_user_by_email(logged_in_email)
+    
+    if user is None:
+        flash("You must log in to save a recipe to favorites")
+        return redirect("/")
+
+    else:
+        user_id = user.user_id
+
+        shopping_list = crud.get_shopping_list_by_user_id(user_id).ingredient
+
+        print(shopping_list)
+    
 
 
 
+
+    return render_template("shopping_list_page.html", user=user, shopping_list=shopping_list)
 
 
 if __name__ == "__main__":

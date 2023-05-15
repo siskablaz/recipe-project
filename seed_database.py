@@ -53,6 +53,7 @@ for recipe in recipe_results:
     for ingredient in missed_ingredients:
         missed_ingredients_list.append(ingredient["name"])
 
+
     analyzed_instructions_list =[]
     for instruction in instructions:
         for step in instruction["steps"]:
