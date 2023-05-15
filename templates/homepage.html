@@ -4,21 +4,26 @@
 
 {% block body %}
 
+<form action="/users" method="POST">
+  <h2>Create an Account</h2>
 
-        <h2>Create an Account</h2>
-      <form action="/users" method="POST">
-        <p>
-          Email <input type="text" name="email">
-        </p>
+  <div class="row mb-3 g-3">
+    <label for="inputEmail3" class="col-sm-1 col-form-label">Email</label>
+    <div class="col-sm-5">
+      <input type="email" name="email" class="form-control" id="inputEmail4">
+    </div>
 
-        <p>
-          Password <input type="password" name="password">
-        </p>
+  </div>
+  <div class="row mb-3 g-3">
+    <label for="inputPassword3" class="col-sm-1 col-form-label">Password</label>
+    <div class="col-sm-5">
+    <input type="password" name="password" class="form-control" id="inputPassword3">
+  </div>
+  </div>
+  
+    <button type="submit" class="btn btn-primary">Create Account</button>
 
-        <p>
-          <input type="submit">
-        </p>
-      </form>
+  </form>
 
       <h2>Log In</h2>
       <form action="/login" method="POST">
@@ -33,6 +38,7 @@
         <p>
           <input type="submit">
         </p>
+        
       </form>
 
       
@@ -128,14 +134,47 @@
       <label for="diet-select">Dietary preference</label>
 
       <select name="diet" id="diet-select">
+        <option value="none">No Dietary Preferance</option>
         <option value="vegan">Vegan</option>
-        <option value="kegeterian">Vegetarian</option>
+        <option value="vegeterian">Vegetarian</option>
         <option value="keto">Ketogenic</option>
+        <option value="gluten-free">Gluten Free</option>
+        <option value="pescetarian">Pescetarian</option>
+        <option value="paleo">Paleo</option>
         <option value="gluten-free">Gluten Free</option>
       </select>
       </div>
     
+      <div class="form-group">
+        <label for="intolerance-select">Dietary preference</label>
   
+        <select name="intolerance" id="intolerance-select">
+          <option value="none">No intolerances</option>
+          <option value="dairy">Dairy</option>
+          <option value="egg">Egg</option>
+          <option value="gluten">Gluten</option>
+          <option value="peanut">Peanut</option>
+          <option value="seafood">Seafood</option>
+          <option value="shellfish">Shellfish</option>
+          <option value="sesame">Sesame</option>
+          <option value="soy">Soy</option>
+          <option value="treenut">treenut</option>
+          <option value="wheat">wheat</option>
+        </select>
+        </div>
+
+        <div class="form-group">
+        <label for="type-select">Dish Type</label>
+  
+        <select name="dish-type" id="type-select">
+          <option value="none">No Dish Type Preferance</option>
+          <option value="breakfast">Breakfast</option>
+          <option value="lunch">Lunch</option>
+          <option value="dinner">Dinner</option>
+          <option value="side%20">Side Dish</option>
+          <option value="dessert">Dessert</option>
+        </select>
+        </div>
       
       <div class="form-group">
         Ingredients?

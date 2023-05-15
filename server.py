@@ -110,6 +110,8 @@ def process_login():
 
     email = request.form.get("email")
     password = request.form.get("password")
+
+    print(email)
     
 
     user = crud.get_user_by_email(email)
@@ -152,9 +154,14 @@ def show_db_recipes():
  
     recipe_input = request.form.get("recipe-input")
 
+    diet_input = request.form.get("diet")
+
+    intolerance_input = request.form.get("intolerance")   
+
+    dish_type_input = request.form.get("dish-type")  
     
 
-    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
+    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
   
 
     recipes = crud.add_recipes_to_db(res)
