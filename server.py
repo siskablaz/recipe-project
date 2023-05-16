@@ -371,6 +371,54 @@ def shopping_list_page():
     return render_template("shopping_list_page.html", user=user, shopping_list=shopping_list)
 
 
+@app.route("/complete-item", methods=['POST'] )
+def complete_item():
+
+    logged_in_email = session.get("user_email")
+    ingredient_name = request.json.get("ingredientName")
+
+    print(ingredient_name)
+    if logged_in_email is None:
+        flash("You must log in to save a recipe to favorites")
+        # This needs to be corrected
+        return (f'You need to login')
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        if user is None:
+            flash("You must log in to save a recipe to favorites")
+        # This needs to be corrected
+            
+            return (f'You need to login')
+        else:
+            this_user_id = user.user_id
+            shopping_list_id = crud.get_shopping_list_by_user_id(this_user_id).shopping_list_id
+
+            in_shopping_list = crud.in_shopping_list_by_name(shopping_list_id,ingredient_name)
+        
+            
+
+            is_shopping_list = None
+            if in_shopping_list:
+                
+                db.session.delete(in_shopping_list)
+                db.session.commit()
+                is_shopping_list = False
+                
+           
+                return (f'removed {ingredient_name}')
+                
+            else:
+                
+                ingredient = crud.create_ingredient(ingredient_name, False, shopping_list_id)
+                db.session.add(ingredient)
+                db.session.commit()
+                is_shopping_list = True
+                
+           
+                return (f'added {ingredient_name}')
+
+
+
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(debug=True, host="0.0.0.0")

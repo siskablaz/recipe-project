@@ -14,8 +14,8 @@
 <ul>
     {% for ingredient in shopping_list %}
         <li>
-            {{ ingredient.name }}
-    
+            {{ ingredient.name }} <button onClick= "completeItem('{{ingredient.name}}', event)" type="submit" name="complete-btn" value="{{ingredient.name}}">complete</button>
+            
         </li>
     {% endfor %}
     </ul>
@@ -28,4 +28,5 @@
     <h2>Please log in to view Shopping List!</h2>
 {% endif %}
 
+<script src="/static/shopping_list_buttons.js"></script>
 {% endblock %}

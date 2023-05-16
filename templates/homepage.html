@@ -4,26 +4,21 @@
 
 {% block body %}
 
-<form action="/users" method="POST">
-  <h2>Create an Account</h2>
 
-  <div class="row mb-3 g-3">
-    <label for="inputEmail3" class="col-sm-1 col-form-label">Email</label>
-    <div class="col-sm-5">
-      <input type="email" name="email" class="form-control" id="inputEmail4">
-    </div>
+        <h2>Create an Account</h2>
+      <form action="/users" method="POST">
+        <p>
+          Email <input type="text" name="email">
+        </p>
 
-  </div>
-  <div class="row mb-3 g-3">
-    <label for="inputPassword3" class="col-sm-1 col-form-label">Password</label>
-    <div class="col-sm-5">
-    <input type="password" name="password" class="form-control" id="inputPassword3">
-  </div>
-  </div>
-  
-    <button type="submit" class="btn btn-primary">Create Account</button>
+        <p>
+          Password <input type="password" name="password">
+        </p>
 
-  </form>
+        <p>
+          <input type="submit">
+        </p>
+      </form>
 
       <h2>Log In</h2>
       <form action="/login" method="POST">
