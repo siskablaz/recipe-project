@@ -12,12 +12,14 @@
           {{ recipe.title }}
         </a>
       <div><img src="{{recipe.image}}"/></div>
+      <div>Ready time: {{recipe.ready_minutes}}</div>
       <div>Missed Ingredient Count : {{recipe.missed_ingredient_count}}</div>
+      <div>Missed Ingredients:</div>
       {% for ingredient in recipe.missed_ingredients %}
         <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-button" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button></div>
       {% endfor%}
     {#<form action="/add-favorite" method="POST">#}
-        <button onClick = "addFavorite('{{recipe.recipe_id}}', event)" name="fav-button" id="fav-button" value="{{recipe.recipe_id}}" class="favoritesBtn btn btn-primary mt-2">Add to favorites</button>
+        <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button" id="fav-button" value="{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2">♡ {{recipe.likes}}</button>
       </li>
     {#</form>#}
     {% endfor %}

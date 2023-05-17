@@ -48,7 +48,7 @@
       <div class="container">
       
       
-        <h2>Fortune</h2>
+        <!-- <h2>Fortune</h2>
       
         <p>Want a fortune?
           <button id="get-fortune-button" class="btn btn-primary mt-2">Get Fortune</button>
@@ -116,10 +116,10 @@
       </form>
     
       <div id="recipe-container"> 
-        <!-- <input>
+       <input>
           <button id="get-dog-image" class="btn btn-primary mt-2 mb-5">Get dog image</button>
-     -->
-      </div>
+   
+      </div> -->
 
       <h2>Show DB Recipes</h2>
 
@@ -136,12 +136,11 @@
         <option value="gluten-free">Gluten Free</option>
         <option value="pescetarian">Pescetarian</option>
         <option value="paleo">Paleo</option>
-        <option value="gluten-free">Gluten Free</option>
       </select>
       </div>
     
       <div class="form-group">
-        <label for="intolerance-select">Dietary preference</label>
+        <label for="intolerance-select">Intolerances</label>
   
         <select name="intolerance" id="intolerance-select">
           <option value="none">No intolerances</option>
@@ -172,6 +171,12 @@
         </div>
       
       <div class="form-group">
+
+      <div class="form-group">
+        <label for="time-select">Max Ready Time (in minutes)</label>
+        <input class="form-control" type="number" name="time" id="time-select"
+        placeholder="None" value=60>
+      </div>
         Ingredients?
 
         <input class="form-control" type="text" name="recipe-input" id="db-recipe-field"

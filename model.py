@@ -14,6 +14,7 @@ class User(db.Model):
 
     fav_recipes = db.relationship("Fav_recipe", back_populates="user")
     shopping_list = db.relationship("Shopping_list", back_populates="user")
+    ratings = db.relationship("Rating", back_populates="user")
 
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
@@ -33,8 +34,11 @@ class Recipe(db.Model):
     title = db.Column(db.String)
     instructions = db.Column(db.ARRAY(db.String))
     ingredients = db.Column(db.ARRAY(db.String))
+    ready_minutes = db.Column(db.Integer)
+   
 
     fav_recipes = db.relationship("Fav_recipe", back_populates="recipes")
+    ratings = db.relationship("Rating", back_populates="recipes")
 
     def __repr__(self):
         return f"<Recipe recipe_id={self.recipe_id}>"
@@ -88,6 +92,25 @@ class Ingredient(db.Model):
         return f"<User ingredient_id={self.ingredient_id} name={self.name}>"
 
 
+class Rating(db.Model):
+    """A Recipe rating."""
+
+    __tablename__ = "ratings"
+
+    rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    score = db.Column(db.Integer)
+    comment = db.Column(db.Text)
+    count = db.Column(db.Integer)
+    recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.recipe_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    
+
+    recipes = db.relationship("Recipe", back_populates="ratings")
+    user = db.relationship("User", back_populates="ratings")
+
+    def __repr__(self):
+        return f"<Rating rating_id={self.rating_id} score={self.score}>"
+
 
 def connect_to_db(flask_app, db_uri="postgresql:///recipes", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
@@ -99,6 +122,9 @@ def connect_to_db(flask_app, db_uri="postgresql:///recipes", echo=True):
     db.init_app(flask_app)
 
     print("Connected to the db!")
+
+
+
 
 
 if __name__ == "__main__":

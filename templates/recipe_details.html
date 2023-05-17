@@ -8,6 +8,33 @@
 
 <img src="{{recipe.image}}" alt="{{recipe.title}} image">
 
+{% if session.get('user_email') %}
+<h2>Rate this Recipe</h2>
+
+<form id="rating-form" action="/recipes/{{ recipe.recipe_id }}/ratings" method="POST">
+  <p>
+    Rating:
+    <select name="rating" id="score">
+      <option value="">Select rating</option>
+      {% for num in range(6) %}
+        <option  value="{{ num }}">{{ num }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p><input type="text" id="comment-input" name="comment-input"></p>
+
+  <p><button type="submit" id="rating-id-btn" >submit</button></p>
+
+
+
+</form>
+{% endif %}
+{% if rating %}
+<p id="rating-score">Avg. Rating: {{avg_rating}}</p>
+<p id="rating-count">{{rating.count}}</p>
+<p id="rating-comment"> {{rating.comment}}</p>
+{% endif %}
+
 {% for ingredient in recipe.ingredients %}
 <div>{{ingredient}}</div>
 {% endfor %}
@@ -16,4 +43,7 @@
 <div>{{instruction}}</div>
 {% endfor %}
 
+
+
+<!-- <script src="/static/update_rating.js" ></script> -->
 {% endblock %}

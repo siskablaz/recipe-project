@@ -2,80 +2,80 @@
 
 // PART 1: SHOW A FORTUNE
 
-function showFortune(evt) {
-  // TODO: get the fortune and show it in the #fortune-text div
-  fetch('/fortune')
-    .then((response) => {
-        return response.text()
-    })
-    .then((serverData) => {
-      document.querySelector('#fortune-text').innerHTML = serverData;
-    })
-}
+// function showFortune(evt) {
+//   // TODO: get the fortune and show it in the #fortune-text div
+//   fetch('/fortune')
+//     .then((response) => {
+//         return response.text()
+//     })
+//     .then((serverData) => {
+//       document.querySelector('#fortune-text').innerHTML = serverData;
+//     })
+// }
 
 
-document.querySelector('#get-fortune-button').addEventListener('click', showFortune);
+// document.querySelector('#get-fortune-button').addEventListener('click', showFortune);
 
-// PART 2: SHOW WEATHER
+// // PART 2: SHOW WEATHER
 
-function showWeather(evt) {
-  evt.preventDefault();
+// function showWeather(evt) {
+//   evt.preventDefault();
 
-  const url = '/weather.json';
-  const zipcode = document.querySelector('#zipcode-field').value;
+//   const url = '/weather.json';
+//   const zipcode = document.querySelector('#zipcode-field').value;
 
-  // TODO: request weather with that URL and show the forecast in #weather-info
-  fetch(`${url}?zipcode=${zipcode}`)
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log(responseData)
-      // document.querySelector('#weather-info').innerHTML = responseData[forecast];
-      document.querySelector('#weather-info').innerHTML = responseData.forecast;
-    })
-}
+//   // TODO: request weather with that URL and show the forecast in #weather-info
+//   fetch(`${url}?zipcode=${zipcode}`)
+//     .then((response) => response.json())
+//     .then((responseData) => {
+//       console.log(responseData)
+//       // document.querySelector('#weather-info').innerHTML = responseData[forecast];
+//       document.querySelector('#weather-info').innerHTML = responseData.forecast;
+//     })
+// }
 
-document.querySelector('#weather-form').addEventListener('submit', showWeather);
+// document.querySelector('#weather-form').addEventListener('submit', showWeather);
 
-// PART 3: ORDER MELONS
+// // PART 3: ORDER MELONS
 
-function orderMelons(evt) {
-  evt.preventDefault();
-  const button = evt.target;
-  const buttonId = button.id;
+// function orderMelons(evt) {
+//   evt.preventDefault();
+//   const button = evt.target;
+//   const buttonId = button.id;
 
-  fetch('/order-melons.json', {
-    method: 'POST',
-    body: JSON.stringify(buttonId),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-      console.log(responseJson.code);
-      console.log(responseJson.msg);
-      console.log(document.querySelector('#order-status'));
+//   fetch('/order-melons.json', {
+//     method: 'POST',
+//     body: JSON.stringify(buttonId),
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((responseJson) => {
+//       console.log(responseJson);
+//       console.log(responseJson.code);
+//       console.log(responseJson.msg);
+//       console.log(document.querySelector('#order-status'));
       
-      // Show the result’s message text in the #order-status div.
-      // const orderStatusDiv = document.querySelector('#order-status');
-      // console.log(orderStatusDiv)
+//       // Show the result’s message text in the #order-status div.
+//       // const orderStatusDiv = document.querySelector('#order-status');
+//       // console.log(orderStatusDiv)
 
-      // this is our mistake -  innerHtml instead of innerHTML
-      // document.querySelector('#order-status').innerHtml = responseJson.msg;
-      document.querySelector('#order-status').innerHTML = responseJson.msg;
-      if (responseJson.code === "ERROR") {
-        // we want the message to appear in red
-        // The reason the text wasn't turning red was because we used .order-error
-        // but we don't need the ( . ) just 'order-error'
-        //document.querySelector('#order-status').classList.add('.order-error');
-        document.querySelector('#order-status').classList.add('order-error');
-      }
-    });
+//       // this is our mistake -  innerHtml instead of innerHTML
+//       // document.querySelector('#order-status').innerHtml = responseJson.msg;
+//       document.querySelector('#order-status').innerHTML = responseJson.msg;
+//       if (responseJson.code === "ERROR") {
+//         // we want the message to appear in red
+//         // The reason the text wasn't turning red was because we used .order-error
+//         // but we don't need the ( . ) just 'order-error'
+//         //document.querySelector('#order-status').classList.add('.order-error');
+//         document.querySelector('#order-status').classList.add('order-error');
+//       }
+//     });
 
-}
+// }
 
-document.querySelector('#order-form').addEventListener('submit', orderMelons);
+// document.querySelector('#order-form').addEventListener('submit', orderMelons);
 
 // function getDog (evt) {
 //   fetch('https://dog.ceo/api/breeds/image/random')

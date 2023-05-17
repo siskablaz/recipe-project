@@ -16,6 +16,7 @@
         <li>
             {{ recipe.title }}
             <div><img src="{{recipe.image}}"/></div>
+            <button onClick="addFavorite('{{recipe.recipe_id}}', 'fav_page', event)" class="favPageBtn">Remove from favorites</button>
     
         </li>
     {% endfor %}
@@ -30,6 +31,6 @@
 {% endif %}
 
 
-
+<script src="/static/display_recipes.js"></script>
 
 {% endblock %}

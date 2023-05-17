@@ -153,15 +153,19 @@ def process_login():
 def show_db_recipes():
  
     recipe_input = request.form.get("recipe-input")
+    recipe_input = recipe_input.replace(" ","")
+    print(recipe_input)
 
     diet_input = request.form.get("diet")
 
     intolerance_input = request.form.get("intolerance")   
 
     dish_type_input = request.form.get("dish-type")  
+
+    time_input = request.form.get("time")
     
 
-    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
+    res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
   
 
     recipes = crud.add_recipes_to_db(res)
@@ -193,6 +197,7 @@ def add_favorite():
     print(request.json)
     logged_in_email = session.get("user_email")
     recipe_id = request.json.get("recipeId")
+    page = request.json.get("page")
 
     if logged_in_email is None:
         flash("You must log in to save a recipe to favorites")
@@ -203,24 +208,33 @@ def add_favorite():
         this_user_id = user.user_id
        
         in_favorite = crud.is_recipe_in_favorite(this_user_id,recipe_id)
+        recipe = crud.get_recipe_by_id(recipe_id)
         recipe_name = crud.get_recipe_by_id(recipe_id).title
         
         print(in_favorite)
         is_favorite = None
         if in_favorite:
             
+            recipe.likes -= 1
             db.session.delete(in_favorite)
             db.session.commit()
             is_favorite = False
-            
-            return (f'You removed {recipe_name} from favorites')
+            if page == "fav_page":
+                return (f'Removing')
+            else:
+                return (f'Removing from favorites')
+                # or can return as json jsonify({key:value,key:value,key:value})
         else:
             fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
+            recipe.likes += 1
             db.session.add(fav_recipe)
             db.session.commit()
             is_favorite = True
             
-            return (f'You added {recipe_name} to favorites')
+            if page == "fav_page":
+                return (f'Adding')
+            else:
+                return (f'Adding to favorites')
 
 
 @app.route("/favorites")
@@ -294,10 +308,23 @@ def recipe_details(recipe_id):
     # res = requests.get(f'https://api.spoonacular.com/recipes/{recipe_id}/analyzedInstructions?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2)
     
     recipe_object = crud.get_recipe_by_id(recipe_id)
+    logged_in_email = session.get("user_email")
+    user = crud.get_user_by_email(logged_in_email)
+    if user is None:
+        flash("You must log in to view recipe details")
+        # This needs to be corrected
+        return redirect('/')
+    else:
+        this_user_id = user.user_id
+        all_recipe_ratings = crud.get_all_recipe_ratings(recipe_id)
+        avg_rating = crud.get_avg_rating(all_recipe_ratings)
+        
+        
+
+        rating = crud.get_rating_by_recipe_user(recipe_id,this_user_id)
 
 
-
-    return render_template("recipe_details.html", recipe=recipe_object)
+    return render_template("recipe_details.html", recipe=recipe_object, rating=rating, avg_rating=avg_rating)
 
 
 @app.route("/add-shopping", methods=['POST'])
@@ -311,13 +338,13 @@ def add_shopping():
     if logged_in_email is None:
         flash("You must log in to save a recipe to favorites")
         # This needs to be corrected
-        return (f'You need to login')
+        return (f'You must be logged in to add to shopping list')
     else:
         user = crud.get_user_by_email(logged_in_email)
         if user is None:
-            flash("You must log in to save a recipe to favorites")
+            flash(f'You must be logged in to add to shopping list')
         # This needs to be corrected
-            return (f'You need to login')
+            return (f'You must be logged in to add to shopping list')
         else:
             this_user_id = user.user_id
             shopping_list_id = crud.get_shopping_list_by_user_id(this_user_id).shopping_list_id
@@ -416,6 +443,75 @@ def complete_item():
                 
            
                 return (f'added {ingredient_name}')
+
+
+
+
+
+
+
+@app.route("/update_rating", methods=["POST"])
+def update_rating():
+    rating_id = request.json["rating_id"]
+    updated_score = request.json["updated_score"]
+    updated_comment = request.json["updated_comment"]
+    rating_object = crud.get_rating_by_id(rating_id)
+    rating_count = rating_object.count
+
+    crud.update_rating(rating_id, updated_score, updated_comment)
+    db.session.commit()
+
+
+    average_score= crud.get_avg_rating()
+
+    print(average_score)
+    print(average_score)
+    print(average_score)
+    print(average_score)
+
+    return jsonify({'ratingCount':rating_count, 'averageScore':str(average_score), 'updatedComment':updated_comment})
+
+
+
+
+
+@app.route("/recipes/<recipe_id>/ratings", methods=["POST"])
+def create_rating(recipe_id):
+    """Create a new rating for the movie."""
+
+    logged_in_email = session.get("user_email")
+    rating_score = request.form.get("rating")
+    comment = request.form.get("comment-input")
+
+
+
+    if logged_in_email is None:
+        flash("You must log in to rate a movie.")
+    elif not rating_score:
+        flash("Error: you didn't select a score for your rating.")
+
+
+    else:
+        
+        user = crud.get_user_by_email(logged_in_email)
+        recipe = crud.get_recipe_by_id(recipe_id)
+        is_rating = crud.get_rating_by_recipe_user(recipe_id,user.user_id)
+
+        if is_rating:
+            is_rating.score=rating_score
+            is_rating.comment=comment
+            db.session.commit()
+        else:
+
+
+            rating = crud.create_rating(int(rating_score), comment, 1, recipe.recipe_id, user.user_id )
+            rating.count + 1
+            db.session.add(rating)
+            db.session.commit()
+
+        flash(f"{user} rated this movie {rating_score} out of 5.")
+
+    return redirect(f"/recipes/{recipe_id}")
 
 
 

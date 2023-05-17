@@ -1,7 +1,7 @@
 
 function completeItem(ingredient_name, event) {
     
-    console.log(ingredient_name)
+    console.log(event.target)
 
     fetch('/complete-item', {
       method: 'POST',

@@ -22,7 +22,7 @@ recipe_results = recipe_results["results"]
 
 recipes_in_db = []
 for recipe in recipe_results:
-    recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title, instructions,ingredients = (
+    recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title, instructions,ingredients, ready_minutes = (
         recipe["id"],
         recipe["image"],
         recipe["imageType"],
@@ -31,7 +31,8 @@ for recipe in recipe_results:
         recipe["missedIngredients"],
         recipe["title"],
         recipe["analyzedInstructions"],
-        recipe["extendedIngredients"]
+        recipe["extendedIngredients"],
+        recipe["readyInMinutes"]
 
     )
 
@@ -72,7 +73,7 @@ for recipe in recipe_results:
 
 
     db_recipe = crud.create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-    missed_ingredients_list, title, analyzed_instructions_list, ingredients_list)
+    missed_ingredients_list, title, analyzed_instructions_list, ingredients_list, ready_minutes)
     
     recipes_in_db.append(db_recipe)
 

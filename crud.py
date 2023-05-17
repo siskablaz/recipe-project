@@ -1,4 +1,4 @@
-from model import db, User, Fav_recipe, Shopping_list, Ingredient, Recipe, connect_to_db
+from model import db, User, Rating, Fav_recipe, Shopping_list, Ingredient, Recipe, connect_to_db
 import model
 
 def create_user(email, password):
@@ -15,11 +15,12 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 def create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-    missed_ingredients, title, instructions, ingredients):
+    missed_ingredients, title, instructions, ingredients, ready_minutes):
 
     recipe = Recipe(recipe_id=recipe_id, image=image, image_type=image_type, 
     likes=likes, missed_ingredient_count=missed_ingredient_count, 
-    missed_ingredients=missed_ingredients, title=title, instructions=instructions, ingredients=ingredients)
+    missed_ingredients=missed_ingredients, title=title,
+     instructions=instructions, ingredients=ingredients, ready_minutes=ready_minutes)
 
     return recipe
 
@@ -140,6 +141,46 @@ def get_shopping_list_by_user_id(user_id):
     return Shopping_list.query.filter(Shopping_list.user_id == user_id).first()
 
 
+def get_rating_by_recipe_user(recipe_id,user_id):
+
+    return Rating.query.filter((Rating.recipe_id == recipe_id) & (Rating.user_id == user_id)).first()
+
+
+
+def get_rating_by_id(rating_id):
+
+    return Rating.query.filter(Rating.rating_id == rating_id).first()
+
+
+def get_all_recipe_ratings(recipe_id):
+
+    return Rating.query.filter(Rating.recipe_id == recipe_id).all()
+     
+
+
+def create_rating(score, comment, count, recipe_id, user_id):
+    """Create and return a new rating."""
+
+    rating = Rating(score=score, comment=comment, count=count, recipe_id=recipe_id, user_id=user_id)
+
+    return rating
+
+def update_rating(rating_id, new_score, new_comment):
+    """ Update a rating given rating_id and the updated score. """
+    rating = Rating.query.get(rating_id)
+    rating.score = new_score
+    rating.comment = new_comment
+
+
+def get_avg_rating(recipe_ratings_list):
+
+  
+    sum_of_ratings = 0
+    for rating in recipe_ratings_list:
+        print(rating.score)
+        sum_of_ratings += rating.score
+    return sum_of_ratings/len(recipe_ratings_list)
+
 
 def add_recipes_to_db(res):
 
@@ -151,7 +192,7 @@ def add_recipes_to_db(res):
     recipes_in_db = []
     return_recipes = []
     for recipe in recipe_results:
-        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title, instructions, ingredients = (
+        recipe_id, image, image_type, likes, missed_ingredient_count, missed_ingredients, title, instructions, ingredients, ready_minutes = (
             recipe["id"],
             recipe["image"],
             recipe["imageType"],
@@ -160,7 +201,8 @@ def add_recipes_to_db(res):
             recipe["missedIngredients"],
             recipe["title"],
             recipe["analyzedInstructions"],
-            recipe["extendedIngredients"]
+            recipe["extendedIngredients"],
+            recipe["readyInMinutes"]
         
         )
 
@@ -206,7 +248,7 @@ def add_recipes_to_db(res):
 
         if not recipe_in_db:
             db_recipe = create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
-            missed_ingredients_list, title, analyzed_instructions_list, ingredients_list)
+            missed_ingredients_list, title, analyzed_instructions_list, ingredients_list, ready_minutes)
 
 
             
