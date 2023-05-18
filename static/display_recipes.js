@@ -27,20 +27,25 @@ function addFavorite(recipe_id, page, event) {
         
         let likeButton = event.target.innerHTML
         let likeCount = Number(likeButton.slice(2))
-
+        
         let buttonClasses = event.target.classList
 
-       console.log(buttonClasses.contains("favoritesBtn"))
-
-        if (buttonClasses.contains("favoritesBtn") && responseMsg == 'Adding to Favorites') {
+      console.log(buttonClasses.contains("favoritesBtn"))
+      console.log(likeCount)
+      console.log(event.target.value)
+        if (responseMsg == 'Adding to Favorites') {
             event.target.innerHTML = `♡ ${likeCount+1}`;
+            document.getElementById(`${event.target.value}`).classList.add('favorited');
             alert(responseMsg)
         }
         else if (responseMsg == 'Removing from Favorites'){
             event.target.innerHTML = `♡ ${likeCount-1}`;
+            document.getElementById(`${event.target.value}`).classList.remove('favorited');
             alert(responseMsg)
         }
-        else{
+        else if (responseMsg == 'Removing'){
+          document.getElementById(`${event.target.value}`).style.display= 'none';
+        
             alert(responseMsg)
             
         }

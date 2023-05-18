@@ -222,7 +222,7 @@ def add_favorite():
             if page == "fav_page":
                 return (f'Removing')
             else:
-                return (f'Removing from favorites')
+                return (f'Removing from Favorites')
                 # or can return as json jsonify({key:value,key:value,key:value})
         else:
             fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
@@ -234,7 +234,7 @@ def add_favorite():
             if page == "fav_page":
                 return (f'Adding')
             else:
-                return (f'Adding to favorites')
+                return (f'Adding to Favorites')
 
 
 @app.route("/favorites")
@@ -250,6 +250,7 @@ def favorites_page():
         user_id = user.user_id
 
         recipes = crud.get_users_fav_recipes(user_id)
+        # Addvariable that says true if recipe is in favorite then add jinja for rendered button to have class favorited if true
 
 
 
@@ -303,8 +304,6 @@ def favorites_page():
 @app.route("/recipes/<recipe_id>")
 def recipe_details(recipe_id):
 
-    print(recipe_id) 
-
     # res = requests.get(f'https://api.spoonacular.com/recipes/{recipe_id}/analyzedInstructions?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2)
     
     recipe_object = crud.get_recipe_by_id(recipe_id)
@@ -317,14 +316,23 @@ def recipe_details(recipe_id):
     else:
         this_user_id = user.user_id
         all_recipe_ratings = crud.get_all_recipe_ratings(recipe_id)
+        all_recipe_comments = crud.all_comments_for_recipe(all_recipe_ratings)
+
+
+        comments_list = crud.get_comments_by_recipe_id(recipe_id)
+
         avg_rating = crud.get_avg_rating(all_recipe_ratings)
+
+        recipe_rating_count = crud.get_rating_count_by_recipe(recipe_id)
         
         
 
-        rating = crud.get_rating_by_recipe_user(recipe_id,this_user_id)
+        user_rating = crud.get_rating_by_recipe_user(recipe_id,this_user_id)
+
+        recipe_is_rated = crud.recipe_has_rating(recipe_id)
 
 
-    return render_template("recipe_details.html", recipe=recipe_object, rating=rating, avg_rating=avg_rating)
+    return render_template("recipe_details.html", recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments)
 
 
 @app.route("/add-shopping", methods=['POST'])
@@ -495,11 +503,15 @@ def create_rating(recipe_id):
         
         user = crud.get_user_by_email(logged_in_email)
         recipe = crud.get_recipe_by_id(recipe_id)
-        is_rating = crud.get_rating_by_recipe_user(recipe_id,user.user_id)
+        is_rating_by_user = crud.get_rating_by_recipe_user(recipe_id,user.user_id)
+        recipe_has__rating = crud.recipe_has_rating(recipe_id)
 
-        if is_rating:
-            is_rating.score=rating_score
-            is_rating.comment=comment
+
+
+
+        if is_rating_by_user:
+            is_rating_by_user.score=rating_score
+            is_rating_by_user.comment=comment
             db.session.commit()
         else:
 
@@ -509,7 +521,7 @@ def create_rating(recipe_id):
             db.session.add(rating)
             db.session.commit()
 
-        flash(f"{user} rated this movie {rating_score} out of 5.")
+        flash(f"{user.user_id} rated this movie {rating_score} out of 5.")
 
     return redirect(f"/recipes/{recipe_id}")
 

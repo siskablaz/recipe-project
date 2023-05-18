@@ -13,10 +13,10 @@
 
 <ul>
     {% for recipe in recipes %}
-        <li>
+        <li id="fav-{{recipe.recipe_id}}">
             {{ recipe.title }}
             <div><img src="{{recipe.image}}"/></div>
-            <button onClick="addFavorite('{{recipe.recipe_id}}', 'fav_page', event)" class="favPageBtn">Remove from favorites</button>
+            <button onClick="addFavorite('{{recipe.recipe_id}}', 'fav_page', event)" value="fav-{{recipe.recipe_id}}" class="favPageBtn">Remove from favorites</button>
     
         </li>
     {% endfor %}

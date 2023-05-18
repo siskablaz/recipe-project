@@ -29,10 +29,15 @@
 
 </form>
 {% endif %}
-{% if rating %}
+{% if recipe_is_rated %}
 <p id="rating-score">Avg. Rating: {{avg_rating}}</p>
-<p id="rating-count">{{rating.count}}</p>
-<p id="rating-comment"> {{rating.comment}}</p>
+<p id="rating-count">{{recipe_rating_count}}</p>
+<p id="rating-comment"> {{all_recipe_comments[0]}}</p><button onClick = "showAllComments(event)" id="show-all-comments" >Show all comments</button>
+<div id="all-comments">
+{% for comment in all_recipe_comments %}
+<p> {{comment}}</p>
+{% endfor %}
+</div>
 {% endif %}
 
 {% for ingredient in recipe.ingredients %}
@@ -45,5 +50,5 @@
 
 
 
-<!-- <script src="/static/update_rating.js" ></script> -->
+<script src="/static/update_rating.js"></script>
 {% endblock %}

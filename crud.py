@@ -146,6 +146,26 @@ def get_rating_by_recipe_user(recipe_id,user_id):
     return Rating.query.filter((Rating.recipe_id == recipe_id) & (Rating.user_id == user_id)).first()
 
 
+def recipe_has_rating(recipe_id):
+
+    return Rating.query.filter(Rating.recipe_id == recipe_id).first()
+
+def all_comments_for_recipe(ratings_list):
+    all_recipe_comments = []
+
+    for rating in ratings_list:
+        all_recipe_comments.append(rating.comment)
+
+    return all_recipe_comments
+
+
+def get_rating_count_by_recipe(recipe_id):
+    counter = 0
+    ratings_list = Rating.query.filter(Rating.recipe_id == recipe_id).all()
+
+    for rating in ratings_list:
+        counter+= 1
+    return counter
 
 def get_rating_by_id(rating_id):
 
@@ -179,8 +199,22 @@ def get_avg_rating(recipe_ratings_list):
     for rating in recipe_ratings_list:
         print(rating.score)
         sum_of_ratings += rating.score
+
+    if len(recipe_ratings_list) == 0:
+        return 'None'
     return sum_of_ratings/len(recipe_ratings_list)
 
+
+def get_comments_by_recipe_id(recipe_id):
+
+    all_ratings = get_all_recipe_ratings(recipe_id)
+
+    comments_list = []
+    for rating in all_ratings:
+        comments_list.append(rating.comment)
+    
+    return comments_list
+        
 
 def add_recipes_to_db(res):
 
