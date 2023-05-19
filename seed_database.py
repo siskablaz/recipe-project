@@ -54,7 +54,11 @@ for recipe in recipe_results:
 # },
     missed_ingredients_list = []
     for ingredient in missed_ingredients:
-        missed_ingredients_list.append(ingredient["name"])
+        missed_ingredients_list.append(ingredient["name"].replace("''",""''""))
+    
+    print(missed_ingredients_list)
+    
+
 
 
     analyzed_instructions_list =[]
@@ -83,6 +87,7 @@ for recipe in recipe_results:
 
 
 
+
 model.db.session.add_all(recipes_in_db)
 model.db.session.commit()
 
@@ -96,8 +101,7 @@ for n in range(10):
     count = 0
 
     user = crud.create_user(email, password)
-    model.db.session.add(user)
-    model.db.session.commit()
+
 
     for i in range(10):
        
@@ -113,8 +117,7 @@ for recipe in recipe_id_list:
         rating_sample = crud.create_rating(score, comment, count, recipe_id, user.user_id)
         model.db.session.add(rating_sample)
 
-print(recipe_id_list)
-    
+
 
 model.db.session.commit()
 

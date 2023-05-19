@@ -48,11 +48,11 @@ function showAllComments(event) {
    
     if (document.getElementById('all-comments').style.display === 'none') {
         document.getElementById('all-comments').style.display = '';
-        event.target.innerHTML = 'Show all comments';
+        event.target.innerHTML = 'Hide all comments';
         console.log('showing comments')
     } else {
         document.getElementById('all-comments').style.display = 'none';
-        event.target.innerHTML = 'Hide all comments';
+        event.target.innerHTML = 'Show all comments';
         console.log('hiding comments')
     }
 }

@@ -18,10 +18,10 @@
       {% for ingredient in recipe.missed_ingredients %}
         <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="shop-{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button></div>
       {% endfor%}
-    {#<form action="/add-favorite" method="POST">#}
+ 
         <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.likes}}</button>
       </li>
-    {#</form>#}
+ 
     {% endfor %}
 
   </ul>

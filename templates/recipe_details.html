@@ -33,7 +33,7 @@
 <p id="rating-score">Avg. Rating: {{avg_rating}}</p>
 <p id="rating-count">{{recipe_rating_count}}</p>
 <p id="rating-comment"> {{recent_comment}}</p><button onClick = "showAllComments(event)" id="show-all-comments" >Show all comments</button>
-<div id="all-comments">
+<div id="all-comments" style="display: none;">
 {% for comment in all_recipe_comments %}
 <p> {{comment}}</p>
 {% endfor %}

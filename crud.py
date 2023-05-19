@@ -6,6 +6,14 @@ def create_user(email, password):
 
     user = User(email=email, password=password)
 
+    model.db.session.add(user)
+    model.db.session.commit()
+
+    shopping_list = create_shopping_list(user.user_id)
+
+    model.db.session.add(shopping_list)
+    model.db.session.commit()
+
     return user
 
 
@@ -257,7 +265,9 @@ def add_recipes_to_db(res):
         missed_ingredients_list = []
         for ingredient in missed_ingredients:
             missed_ingredients_list.append(ingredient["name"].replace("''",""))
-           
+
+    
+        
 
         analyzed_instructions_list =[]
         for instruction in instructions:

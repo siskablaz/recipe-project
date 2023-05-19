@@ -89,8 +89,6 @@ def register_user():
         user = crud.create_user(email,password)
         # TODO also create shopping list for user that was created
 
-        db.session.add(user)
-        db.session.commit()
 
         
 
@@ -98,10 +96,7 @@ def register_user():
         print("created new email")
  
         
-        shopping_list = crud.create_shopping_list(user.user_id)
-
-        db.session.add(shopping_list)
-        db.session.commit()
+        
 
     return redirect("/")
 
@@ -322,6 +317,7 @@ def recipe_details(recipe_id):
         comments_list = crud.get_comments_by_recipe_id(recipe_id)
 
         avg_rating = crud.get_avg_rating(all_recipe_ratings)
+
 
         recipe_rating_count = crud.get_rating_count_by_recipe(recipe_id)
         
