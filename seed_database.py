@@ -68,7 +68,7 @@ for recipe in recipe_results:
 
     ingredients_list = []
     for ingredient in ingredients:
-        ingredients_list.append(ingredient["originalName"])
+        ingredients_list.append(f'{ingredient["originalName"]}: {ingredient["amount"]} {ingredient["unit"]}')
         # ingredient.image
         # imgredient.originalName
 

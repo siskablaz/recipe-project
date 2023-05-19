@@ -92,7 +92,7 @@ def create_recipe_api(recipe_response):
 
         ingredients_list = []
         for ingredient in ingredients:
-            ingredients_list.append(ingredient["originalName"])
+            ingredients_list.append(f'{ingredient["originalName"]}: {ingredient["amount"]} {ingredient["unit"]}')
 
         db_recipe = create_recipe(recipe_id, image, image_type, likes, missed_ingredient_count, 
         missed_ingredients_list, title, analyzed_instructions_list, ingredients_list)
@@ -276,7 +276,7 @@ def add_recipes_to_db(res):
 
         ingredients_list = []
         for ingredient in ingredients:
-            ingredients_list.append(ingredient["originalName"])
+            ingredients_list.append(f'{ingredient["originalName"]}: {ingredient["amount"]} {ingredient["unit"]}')
             # ingredient.image
             # imgredient.originalName
 

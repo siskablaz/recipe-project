@@ -43,10 +43,12 @@
 {% for ingredient in recipe.ingredients %}
 <div>{{ingredient}}</div>
 {% endfor %}
-<div> </div>
+
+<ol>
 {% for instruction in recipe.instructions %}
-<div>{{instruction}}</div>
+<li>{{instruction}}</li>
 {% endfor %}
+</ol>
 
 
 
