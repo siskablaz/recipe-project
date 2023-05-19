@@ -325,14 +325,14 @@ def recipe_details(recipe_id):
 
         recipe_rating_count = crud.get_rating_count_by_recipe(recipe_id)
         
-        
+        recent_comment = all_recipe_comments[-1]
 
         user_rating = crud.get_rating_by_recipe_user(recipe_id,this_user_id)
 
         recipe_is_rated = crud.recipe_has_rating(recipe_id)
 
 
-    return render_template("recipe_details.html", recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments)
+    return render_template("recipe_details.html", recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments, recent_comment=recent_comment)
 
 
 @app.route("/add-shopping", methods=['POST'])

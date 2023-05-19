@@ -202,7 +202,7 @@ def get_avg_rating(recipe_ratings_list):
 
     if len(recipe_ratings_list) == 0:
         return 'None'
-    return sum_of_ratings/len(recipe_ratings_list)
+    return round(sum_of_ratings/len(recipe_ratings_list),1)
 
 
 def get_comments_by_recipe_id(recipe_id):
