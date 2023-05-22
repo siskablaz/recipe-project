@@ -149,7 +149,7 @@ def show_db_recipes():
  
     recipe_input = request.form.get("recipe-input")
     recipe_input = recipe_input.replace(" ","")
-    print(recipe_input)
+
 
     diet_input = request.form.get("diet")
 
@@ -165,9 +165,25 @@ def show_db_recipes():
 
     recipes = crud.add_recipes_to_db(res)
 
+    logged_in_email = session.get("user_email")
+    user = crud.get_user_by_email(logged_in_email)
+
+
+    curr_shop_list = []
+    
+    for listobject in user.shopping_list:
+        for ingobject in listobject.ingredient:
+            curr_shop_list.append(ingobject.name)
+
+    
+
+    curr_fav_recipes = []
+
+    for recobj in user.fav_recipes:
+        curr_fav_recipes.append(recobj.recipe_id)
    
 
-    return render_template("recipe_results.html", recipes=recipes)
+    return render_template("recipe_results.html", recipes=recipes, user=user, currShopList=curr_shop_list, currFavRecipes = curr_fav_recipes)
 
 
 
@@ -340,7 +356,7 @@ def add_shopping():
     
 
     if logged_in_email is None:
-        flash("You must log in to save a recipe to favorites")
+        flash("You must be logged in to add to shopping list")
         # This needs to be corrected
         return (f'You must be logged in to add to shopping list')
     else:
@@ -367,7 +383,7 @@ def add_shopping():
                 db.session.commit()
                 is_shopping_list = False
                 
-                return (f'You removed {ingredient_name} from shopping_list')
+                return (f'Removing from Shopping list')
             else:
                 
                 ingredient = crud.create_ingredient(ingredient_name, False, shopping_list_id)
@@ -375,7 +391,7 @@ def add_shopping():
                 db.session.commit()
                 is_shopping_list = True
                 
-                return (f'You added {ingredient_name} to shopping_list')
+                return (f'Adding to Shopping list')
 
 
 @app.route("/shopping-list")
@@ -521,7 +537,24 @@ def create_rating(recipe_id):
 
     return redirect(f"/recipes/{recipe_id}")
 
+@app.route("/bootstrap")
+def view_temp():
 
+    logged_in_email = session.get("user_email")
+    user = crud.get_user_by_email(logged_in_email)
+    
+    if user is None:
+        flash("You must log in to save a recipe to favorites")
+        return redirect("/")
+
+    else:
+        user_id = user.user_id
+
+        shopping_list = crud.get_shopping_list_by_user_id(user_id).ingredient
+
+        print(shopping_list)
+
+    return render_template("B_shopping_list_page.html", user=user, shopping_list=shopping_list)
 
 if __name__ == "__main__":
     connect_to_db(app)

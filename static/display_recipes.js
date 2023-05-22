@@ -34,7 +34,7 @@ function addFavorite(recipe_id, page, event) {
       console.log(likeCount)
       console.log(event.target.value)
         if (responseMsg == 'Adding to Favorites') {
-            event.target.innerHTML = `♡ ${likeCount+1}`;
+            event.target.innerHTML = `❤️ ${likeCount+1}`;
             document.getElementById(`${event.target.value}`).classList.add('favorited');
             alert(responseMsg)
         }
@@ -58,13 +58,13 @@ function addFavorite(recipe_id, page, event) {
   
   // document.querySelector('.favoritesBtn').addEventListener('click', addFavorite);
   
-  function addShoppingList(ingredient_name, page, event) {
-    
+  function addShoppingList(ingredient_name, event) {
+   
     
 
     fetch('/add-shopping', {
       method: 'POST',
-      body: JSON.stringify({ingredientName:ingredient_name, page:page}),
+      body: JSON.stringify({ingredientName:ingredient_name}),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -75,10 +75,19 @@ function addFavorite(recipe_id, page, event) {
       .then((responseMsg) => {
         
         alert(responseMsg)
+        if (responseMsg == 'Removing from Shopping list'){
+          event.target.innerHTML = `+ ${event.target.value}`;
+        }
+        else {
+          event.target.innerHTML = `-  ${event.target.value}`;
+        }
   
       }
       
     )
   }
+
+
+  
 
 

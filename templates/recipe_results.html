@@ -16,11 +16,23 @@
       <div>Missed Ingredient Count : {{recipe.missed_ingredient_count}}</div>
       <div>Missed Ingredients:</div>
       {% for ingredient in recipe.missed_ingredients %}
-        <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="shop-{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button></div>
-      {% endfor%}
- 
-        <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.likes}}</button>
-      </li>
+        {% if ingredient in currShopList %}
+        <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">-  {{ingredient}}</button></div>
+        {% endif %}
+        {% if ingredient not in currShopList %}
+        <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button></div>
+        {% endif %}
+        {% endfor%}
+
+        {% if recipe.recipe_id in currFavRecipes %}
+        <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">❤️ {{recipe.fav_recipes|length}}</button>
+        {% endif %}
+        {% if recipe.recipe_id not in currFavRecipes %}
+        <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.fav_recipes|length}}</button>
+        {% endif %}
+      
+
+        </li>
  
     {% endfor %}
 

@@ -116,6 +116,10 @@ def get_recipes(recipe_response):
     return recipes_list
 
 
+    
+
+
+
 def create_shopping_list(user_id):
 
     shop_list = Shopping_list(user_id = user_id)

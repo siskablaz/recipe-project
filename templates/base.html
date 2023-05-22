@@ -14,14 +14,32 @@
   </head>
   <body>
 
-   
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/favorites">Favorites</a></li>
-        <li><a href="/shopping-list">Shopping List</a></li>
-        <li><a href="contact.asp">Contact</a></li>
-        <li><a href="about.asp">About</a></li>
-    </ul> 
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: ">
+      <a class="navbar-brand d-lg-none" href="#"><img style=" width: 175px;" src="/static/images/mm_logo.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbarToggler7"
+          aria-controls="myNavbarToggler7" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="myNavbarToggler7">
+          <ul class="navbar-nav mx-auto justify-content-left">
+              <li class="nav-item ">
+                  <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link"  href="/favorites">Favorites</a>
+              </li>
+            </ul>
+              <a class="d-none d-lg-block"  href="#"><img style=" width: 175px;" src="/static/images/mm_logo.png"></a>
+            <ul class="navbar-nav mx-auto justify-content-right">  
+              <li class="nav-item">
+                  <a class="nav-link" href="/shopping-list">Shopping List</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
 
     {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
