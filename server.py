@@ -98,7 +98,7 @@ def register_user():
         
         
 
-    return redirect("/")
+    return redirect("/login-page")
 
 @app.route('/login', methods=["POST"])
 def process_login():
@@ -122,6 +122,17 @@ def process_login():
         print("logged in successfully")
 
     return redirect("/")
+
+
+@app.route('/login-page')
+def login_page():
+
+    return render_template("login.html")
+
+@app.route('/register-page')
+def register_page():
+
+    return render_template("register.html")
 
 
 # @app.route("/get-recipes.json", methods=['POST'])
@@ -425,6 +436,9 @@ def complete_item():
     ingredient_name = request.json.get("ingredientName")
 
     print(ingredient_name)
+    print(ingredient_name)
+    print(ingredient_name)
+
     if logged_in_email is None:
         flash("You must log in to save a recipe to favorites")
         # This needs to be corrected
@@ -443,6 +457,9 @@ def complete_item():
             in_shopping_list = crud.in_shopping_list_by_name(shopping_list_id,ingredient_name)
         
             
+            print(in_shopping_list)
+            print(in_shopping_list)
+            print(in_shopping_list)
 
             is_shopping_list = None
             if in_shopping_list:
@@ -452,7 +469,7 @@ def complete_item():
                 is_shopping_list = False
                 
            
-                return (f'removed {ingredient_name}')
+                return ('Removing from Shopping list')
                 
             else:
                 
@@ -462,7 +479,7 @@ def complete_item():
                 is_shopping_list = True
                 
            
-                return (f'added {ingredient_name}')
+                return ('Adding to Shopping list')
 
 
 

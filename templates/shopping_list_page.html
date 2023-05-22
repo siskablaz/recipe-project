@@ -13,7 +13,7 @@
 
 <ul>
     {% for ingredient in shopping_list %}
-        <li>
+        <li id='shop-list-{{ingredient.name}}'>
             {{ ingredient.name }} <button onClick= "completeItem('{{ingredient.name}}', event)" type="submit" name="complete-btn" value="{{ingredient.name}}">complete</button>
             
         </li>
