@@ -7,10 +7,11 @@
 
  
 
-    <div class="container">
+  
+
     {% for recipe in recipes %}
    
-
+    <div class="container">
       <h3></h3>
       <div class="cardcontainer">
           <div class="photo">
@@ -25,7 +26,7 @@
                 {% endif %}
                 </div>
           </div>
-          <div class="content">
+          <div class="content" >
               <p class="txt4"><a href="/recipes/{{ recipe.recipe_id }}">
                 {{ recipe.title }}
               </a>
@@ -34,7 +35,7 @@
               <p class="txt2">Missed Ingredients: {{recipe.missed_ingredient_count}}</p>
               
               
-              
+
               {% for ingredient in recipe.missed_ingredients %}
           <div>
         {% if ingredient in currShopList %}
@@ -45,46 +46,21 @@
         {% endif %}
       </div>
         {% endfor%}
+
  
           
-
+          
       </div>
       <div class="footer">
-        <p><a class="waves-effect waves-light btn" href="/recipes/{{ recipe.recipe_id }}">Read More</a><a id="heart"><span class="like"><i class="fab fa-gratipay"></i>{{recipe.fav_recipes|length}}</span></a></p>
+        <p><a class="waves-effect waves-light btn" href="#">Read More</a><a id="heart"><span class="like"><i class="fab fa-gratipay"></i>{{recipe.fav_recipes|length}}</span></a></p>
         <p class="txt3"><i class="far fa-clock"></i>10 Minutes Ago <span class="comments"><i class="fas fa-comments"></i>45 Comments</span></p>
     </div>
   </div>
+</div>
 
 
-      <!-- <li>
-        <a href="/recipes/{{ recipe.recipe_id }}">
-          {{ recipe.title }}
-        </a>
-      <div><img src="{{recipe.image}}"/></div>
-      <div>Ready time: {{recipe.ready_minutes}}</div>
-      <div>Missed Ingredient Count : {{recipe.missed_ingredient_count}}</div>
-      <div>Missed Ingredients:</div>
-      {% for ingredient in recipe.missed_ingredients %}
-        {% if ingredient in currShopList %}
-        <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">-  {{ingredient}}</button></div>
-        {% endif %}
-        {% if ingredient not in currShopList %}
-        <div> <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button></div>
-        {% endif %}
-        {% endfor%}
-
-        {% if recipe.recipe_id in currFavRecipes %}
-        <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">❤️ {{recipe.fav_recipes|length}}</button>
-        {% endif %}
-        {% if recipe.recipe_id not in currFavRecipes %}
-        <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.fav_recipes|length}}</button>
-        {% endif %}
-      
-
-        </li> -->
- 
     {% endfor %}
-  </div>
+
 
 
   <script src="/static/display_recipes.js"></script>

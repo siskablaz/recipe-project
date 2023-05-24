@@ -154,6 +154,32 @@ def register_page():
    
 
 #     return render_template("recipe_results.html", recipes=recipes)
+@app.route("/b-get-db-recipes")
+def show_db_recipes_bootstrap():
+     
+    logged_in_email = session.get("user_email")
+    user = crud.get_user_by_email(logged_in_email)
+
+    recipes = crud.get_users_fav_recipes(user.user_id)
+
+    curr_shop_list = []
+    
+    for listobject in user.shopping_list:
+        for ingobject in listobject.ingredient:
+            curr_shop_list.append(ingobject.name)
+
+    curr_fav_recipes = []
+
+    for recobj in user.fav_recipes:
+        curr_fav_recipes.append(recobj.recipe_id)
+
+    print(recipes)
+    print(recipes)
+    print(recipes)
+    print(curr_shop_list)
+
+    return render_template("B_results_page.html", recipes=recipes, user=user, currShopList=curr_shop_list, currFavRecipes = curr_fav_recipes)
+
 
 @app.route("/get-db-recipes", methods=['POST'])
 def show_db_recipes():
@@ -173,7 +199,7 @@ def show_db_recipes():
 
     res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
   
-
+    
     recipes = crud.add_recipes_to_db(res)
 
     logged_in_email = session.get("user_email")
@@ -572,6 +598,26 @@ def view_temp():
         print(shopping_list)
 
     return render_template("B_shopping_list_page.html", user=user, shopping_list=shopping_list)
+
+
+
+@app.route("/popular-recipes.json")
+def popular_recipes_json():
+    pop_recipes = crud.get_pop_recipes()
+
+
+    print(pop_recipes)
+    
+
+
+    return jsonify(pop_recipes)
+
+
+@app.route("/popular-recipes")
+def popular_recipes():
+
+    return render_template("popular_recipes.html")
+
 
 if __name__ == "__main__":
     connect_to_db(app)

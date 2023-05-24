@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}All recipes{% endblock %}
+
+{% block body %}
+    <div id="root"></div>
+
+    <script src="/static/popular_recipes.jsx" type="text/jsx"></script>
+{% endblock %}
+
+{% block after_body %}
+    <!-- If you wanted to show each component on separate pages, 
+        you would import the jsx into the template (as shown below), 
+        uncomment the relevant route in server.py, and uncomment the 
+        ReactDOM.render() in the jsx file -->
+  
+{% endblock %}

@@ -226,11 +226,39 @@ def get_comments_by_recipe_id(recipe_id):
         comments_list.append(rating.comment)
     
     return comments_list
+
+
+def get_pop_recipes():
+
+    recipes = Recipe.query.all()
+
+    final_pop_recipes = []
+    pop_recipes = {}
+    for rec in recipes:
+        pop_recipes[rec.recipe_id] = len(rec.fav_recipes)
+
+    sorted_pop_recipes = sorted(pop_recipes.items(), key=lambda x:x[1], reverse=True)
+
+    for rec in sorted_pop_recipes:
+        recipe_dict = {}
+        # final_pop_recipes.append(get_recipe_by_id(rec[0]))
+        recipe_obj = get_recipe_by_id(rec[0])
+        recipe_dict['recipe_id'] = recipe_obj.recipe_id
+        recipe_dict['image'] = recipe_obj.image
+        recipe_dict['title'] = recipe_obj.title
+        recipe_dict['ingredients'] = recipe_obj.ingredients
+        recipe_dict['ready_minutes'] = recipe_obj.ready_minutes
+        final_pop_recipes.append(recipe_dict)
+
+
+    return final_pop_recipes
         
 
 def add_recipes_to_db(res):
 
     recipe_results = res.json()
+
+    print(recipe_results)
     recipe_results = recipe_results["results"]
 
 
