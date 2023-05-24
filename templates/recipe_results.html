@@ -50,7 +50,7 @@
 
       </div>
       <div class="footer">
-        <p><a class="waves-effect waves-light btn" href="/recipes/{{ recipe.recipe_id }}">Read More</a><a id="heart"><span class="like"><i class="fab fa-gratipay"></i>{{recipe.fav_recipes|length}}</span></a></p>
+        <p><a class="waves-effect waves-light btn" href="/recipes/{{ recipe.recipe_id }}">Read More</a><a id="heart"><span class="like"><i class="fab fa-gratipay"></i>Missing ingredients: {{recipe.missed_ingredient_count}}</span></a></p>
         <p class="txt3"><i class="far fa-clock"></i>10 Minutes Ago <span class="comments"><i class="fas fa-comments"></i>45 Comments</span></p>
     </div>
   </div>

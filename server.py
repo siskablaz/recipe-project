@@ -85,20 +85,20 @@ def register_user():
     if user:
         flash("Cannot create an account with that email. Try again.")
         print("already an email")
+
+        return redirect("/register-page")
     else:
         user = crud.create_user(email,password)
         # TODO also create shopping list for user that was created
 
 
-        
 
         flash("Account created! Please log in.")
         print("created new email")
  
-        
-        
+        return redirect("/login-page")
+    
 
-    return redirect("/login-page")
 
 @app.route('/login', methods=["POST"])
 def process_login():
@@ -218,6 +218,8 @@ def show_db_recipes():
 
     for recobj in user.fav_recipes:
         curr_fav_recipes.append(recobj.recipe_id)
+
+
    
 
     return render_template("recipe_results.html", recipes=recipes, user=user, currShopList=curr_shop_list, currFavRecipes = curr_fav_recipes)

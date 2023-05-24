@@ -258,7 +258,7 @@ def add_recipes_to_db(res):
 
     recipe_results = res.json()
 
-    print(recipe_results)
+
     recipe_results = recipe_results["results"]
 
 

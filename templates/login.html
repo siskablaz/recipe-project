@@ -8,7 +8,7 @@
 
 <section class="vh-100">
     <div class="container-fluid">
-      <div class="row" style="height: 600px; background-repeat: no-repeat; background-size: cover; background-image: url(/static/images/upwk61666606-wikimedia-image-kowb1kus.jpg);">
+      <div class="row" style="height: 650px; background-repeat: no-repeat; background-size: cover; background-image: url(/static/images/upwk61666606-wikimedia-image-kowb1kus.jpg);">
         <div class="col-sm-6 text-black">
   
           <!-- <div class="px-5 ms-xl-4">
@@ -16,12 +16,28 @@
             <span class="h1 fw-bold mb-0">Logo</span>
           </div> -->
   
-          <div style="background-color: white; height: 500px;" class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+          <div style="background-color: white; height: 550px; max-width: 27rem;" class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
   
             <form style="width: 23rem; margin-bottom: 100px;" action="/login" method="POST">
   
-              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; padding-top: 70px;">Log in</h3>
+
+
+
+              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; padding-top: 100px;">Log in</h3>
   
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    
+                    {% for message in messages %}
+                        <p class="flashes" style="font-size:15px;">{{ message }}</p>
+                    {% endfor %}
+                
+                
+                    {% else %}
+                    <p><br></p>
+                {% endif %}
+            {% endwith %}
+
               <div class="form-outline mb-4">
                 <input type="email" name="email" id="form2Example18" class="form-control form-control-lg" />
                 <label class="form-label" for="form2Example18">Email address</label>
