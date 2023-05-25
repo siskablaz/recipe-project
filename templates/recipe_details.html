@@ -31,8 +31,9 @@
 {% endif %}
 {% if recipe_is_rated %}
 <p id="rating-score">Avg. Rating: {{avg_rating}}</p>
-<p id="rating-count">{{recipe_rating_count}}</p>
-<p id="rating-comment"> {{recent_comment}}</p><button onClick = "showAllComments(event)" id="show-all-comments" >Show all comments</button>
+<p id="rating-count">rating count: {{recipe_rating_count}}</p>
+<p> comment count:{{all_recipe_comments|length}} </p>
+<p id="rating-comment"> {{recent_comment}}</p><button onClick = "showAllComments(event)" id="show-all-comments" >Show all comments ▾</button>
 <div id="all-comments" style="display: none;">
 {% for comment in all_recipe_comments %}
 <p> {{comment}}</p>

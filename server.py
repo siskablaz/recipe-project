@@ -268,6 +268,8 @@ def add_favorite():
             recipe.likes -= 1
             db.session.delete(in_favorite)
             db.session.commit()
+            print('removing')
+            print(in_favorite)
             is_favorite = False
             if page == "fav_page":
                 return (f'Removing')
@@ -277,9 +279,13 @@ def add_favorite():
         else:
             fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
             recipe.likes += 1
+         
             db.session.add(fav_recipe)
             db.session.commit()
             is_favorite = True
+
+            print(f'adding {fav_recipe}')
+      
             
             if page == "fav_page":
                 return (f'Adding')

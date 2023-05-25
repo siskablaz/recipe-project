@@ -19,9 +19,9 @@ h2 {
   background-color: red;
 }
 
-/* .favorited {
-  background-color: red;
-} */
+.favorited {
+  color: red;
+}
 
 
 .navbar .navbar-nav .nav-link {
@@ -175,7 +175,7 @@ justify-content: center;
 }
 .footer{
   width: 100%;
-  height: 100px;
+  height: 80px;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
@@ -197,7 +197,7 @@ justify-content: center;
   cursor: pointer;
 }
 .like{
-  float: right;
+  /* float: right; */
   font-size: 22px;
   position: relative;
   top: 20px;
@@ -205,10 +205,13 @@ justify-content: center;
 }
 .fa-gratipay{
   margin-right: 10px;
-  transition: 0.5s;
+  transition: 0.25s;
+  text-shadow: -3px 3px 0px darkred;
+  position: relative;
+  top: 16px;
 }
 .fa-gratipay:hover{
-  color: #E74C3C;
+  color: #ffc8c8;
 }
 .txt3{
   color: gray;
@@ -219,12 +222,28 @@ justify-content: center;
 .comments{
   float: right;
   cursor: pointer;
+  text-decoration: none;
 }
 .fa-clock, .fa-comments{
   margin-right: 7px;
 }
 
+.results-title{
+  margin-top: 40px;
+  margin-bottom: 40px;
 
+}
+
+#show-all-comments{
+  border: none;
+  font-weight: bold;
+}
+
+#show-all-comments:hover{
+  text-decoration: underline;
+  border: none;
+  font-weight: bold;
+}
 
 .advanced{
 
