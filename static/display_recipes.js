@@ -92,6 +92,7 @@ function addFavorite(recipe_id, page, event) {
   
   function addShoppingList(ingredient_name, event) {
    
+    console.log(event.target)
     
 
     fetch('/add-shopping', {
@@ -109,9 +110,11 @@ function addFavorite(recipe_id, page, event) {
         alert(responseMsg)
         if (responseMsg == 'Removing from Shopping list'){
           event.target.innerHTML = `+ ${event.target.value}`;
+          console.log(event.target.innerHTML);
         }
         else {
           event.target.innerHTML = `-  ${event.target.value}`;
+          console.log(event.target.innerHTML);
         }
   
       }

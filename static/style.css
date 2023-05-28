@@ -103,13 +103,16 @@ h1{
   box-shadow: 0 0 45px gray;
 }
 .photo{
-  height: 250px;
+  height: 200px;
   width: 100%;
+  contain: content;
 }
 .photo img{
-  height: 100%;
+  position: relative;
+  height: 123%;
   width: 100%;
   object-fit: cover;
+  top: -25px;
 }
 .txt1{
   margin: auto;
@@ -190,7 +193,9 @@ justify-content: center;
   top: 20px;
 }
 
-
+.form-check-label{
+  font-size: large;
+}
 
 
 #heart{
@@ -206,9 +211,9 @@ justify-content: center;
 .fa-gratipay{
   margin-right: 10px;
   transition: 0.25s;
-  text-shadow: -3px 3px 0px darkred;
-  position: relative;
-  top: 16px;
+  /* text-shadow: -3px 3px 0px darkred; */
+  position: fixed;
+  top: 3px;
 }
 .fa-gratipay:hover{
   color: #ffc8c8;

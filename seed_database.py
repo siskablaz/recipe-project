@@ -54,7 +54,9 @@ for recipe in recipe_results:
 # },
     missed_ingredients_list = []
     for ingredient in missed_ingredients:
-        missed_ingredients_list.append(ingredient["name"].replace("''",""''""))
+        ingredient_name = ingredient["name"].replace("''",""''"")
+        ingredient_name = ingredient["name"].replace("'",""''"")
+        missed_ingredients_list.append(ingredient_name)
     
     print(missed_ingredients_list)
     

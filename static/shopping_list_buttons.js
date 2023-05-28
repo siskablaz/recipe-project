@@ -15,15 +15,23 @@ function completeItem(ingredient_name, event) {
         return response.text()})
       .then((responseMsg) => {
         
-        alert(responseMsg)
+        // alert(responseMsg)
         // location.reload(true)
 
         if (responseMsg == 'Removing from Shopping list'){
-          document.getElementById(`shop-list-${event.target.value}`).innerHTML = `<del>${event.target.value}</del><button onClick= "completeItem('${event.target.value}', event)" type="submit" name="complete-btn" value="${event.target.value}">Add</button>`;
+          document.getElementById(`shop-list-${event.target.value}`).innerHTML = `<del>${event.target.value}</del>`;
         }
         else if (responseMsg == 'Adding to Shopping list') {
-          document.getElementById(`shop-list-${event.target.value}`).innerHTML = `${event.target.value}<button onClick= "completeItem('${event.target.value}', event)" type="submit" name="complete-btn" value="${event.target.value}">complete</button>`;
+          document.getElementById(`shop-list-${event.target.value}`).innerHTML = `${event.target.value}`;
         }
+
+
+        // if (responseMsg == 'Removing from Shopping list'){
+        //   document.getElementById(`shop-list-${event.target.value}`).innerHTML = `<del>${event.target.value}</del><button onClick= "completeItem('${event.target.value}', event)" type="submit" name="complete-btn" value="${event.target.value}">Add</button>`;
+        // }
+        // else if (responseMsg == 'Adding to Shopping list') {
+        //   document.getElementById(`shop-list-${event.target.value}`).innerHTML = `${event.target.value}<button onClick= "completeItem('${event.target.value}', event)" type="submit" name="complete-btn" value="${event.target.value}">complete</button>`;
+        // }
 
       }
       

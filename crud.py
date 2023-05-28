@@ -82,7 +82,9 @@ def create_recipe_api(recipe_response):
     
         missed_ingredients_list = []
         for ingredient in missed_ingredients:
-            missed_ingredients_list.append(ingredient["name"].replace('"',' '))
+            ingredient_name = ingredient["name"].replace("''",""''"")
+            ingredient_name = ingredient_name.replace("'",""''"")
+            missed_ingredients_list.append(ingredient_name)
 
 
         analyzed_instructions_list =[]
@@ -248,6 +250,11 @@ def get_pop_recipes():
         recipe_dict['title'] = recipe_obj.title
         recipe_dict['ingredients'] = recipe_obj.ingredients
         recipe_dict['ready_minutes'] = recipe_obj.ready_minutes
+        recipe_dict['fav_count'] = len(recipe_obj.fav_recipes)
+        recipe_dict['rating_count'] = len(recipe_obj.ratings)
+        recipe_dict['rating_avg'] = get_avg_rating(recipe_obj.ratings)
+
+
         final_pop_recipes.append(recipe_dict)
 
 
@@ -296,9 +303,10 @@ def add_recipes_to_db(res):
     # },
         missed_ingredients_list = []
         for ingredient in missed_ingredients:
-            missed_ingredients_list.append(ingredient["name"].replace("''",""))
-
-    
+            ingredient_name = ingredient["name"].replace("''",""''"")
+            ingredient_name = ingredient_name.replace("'",""''"")
+            missed_ingredients_list.append(ingredient_name)
+        
         
 
         analyzed_instructions_list =[]

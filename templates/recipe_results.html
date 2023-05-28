@@ -43,11 +43,11 @@
               {% for ingredient in recipe.missed_ingredients %}
           <div>
         {% if ingredient in currShopList %}
-        <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">-  {{ingredient}}</button>
+        <button onClick = "addShoppingList('{{ingredient|replace("'","")}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient|replace("'","")}}" class="favoritesBtn btn btn-primary mt-2">-  {{ingredient|replace("'","")}}</button>
 
         {% endif %}
         {% if ingredient not in currShopList %}
-        <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button>
+        <button onClick = "addShoppingList('{{ingredient|replace("'","")}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient|replace("'","")}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient|replace("'","")}}</button>
    
         {% endif %}
       </div>

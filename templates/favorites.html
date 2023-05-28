@@ -9,18 +9,73 @@
 {% if session.get('user_email') %}
 
 
-<h1>{{ user.email }}'s Favorites Page</h1>
+<h1 style="margin-top: 3rem; margin-bottom: 3rem;">{{ user.email }}'s Favorites Page</h1>
 
-<ul>
-    {% for recipe in recipes %}
-        <li id="fav-{{recipe.recipe_id}}">
-            {{ recipe.title }}
-            <div><img src="{{recipe.image}}"/></div>
-            <button onClick="addFavorite('{{recipe.recipe_id}}', 'fav_page', event)" value="fav-{{recipe.recipe_id}}" class="favPageBtn">Remove from favorites</button>
-    
-        </li>
-    {% endfor %}
-    </ul>
+
+            <div class="container">
+                {% for recipe in recipes %}
+               
+            
+                  <h3></h3>
+                  <div class="cardcontainer">
+                      <div class="photo">
+                        <img src="{{recipe.image}}"/>
+                        
+                          <div class="photos">
+                            {% if recipe.recipe_id in currFavRecipes %}
+                            <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">❤️ {{recipe.fav_recipes|length}}</button> -->
+                          <i  title="Remove from favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn favorited mt-2 fab fa-gratipay fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}"></i>
+                          
+                          {% endif %}
+                            {% if recipe.recipe_id not in currFavRecipes %}
+                            <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.fav_recipes|length}}</button> -->
+                            <i title="Save to favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}" ></i>
+                            
+                            {% endif %}
+                            </div>
+                      </div>
+                      <div class="content">
+                          <p class="txt4"><a href="/recipes/{{ recipe.recipe_id }}">
+                            {{ recipe.title }}
+                          </a>
+                          </p>
+                          <p class="txt5">Ready time: {{recipe.ready_minutes}}</p>
+                          <p class="txt2">Ingredients: {{recipe.ingredients|length}}</p>
+                          
+                          
+                          
+                          {% for ingredient in recipe.ingredients %}
+                      <div>
+                    {% if ingredient in currShopList %}
+                    <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">-  {{ingredient}}</button>
+            
+                    {% endif %}
+                    {% if ingredient not in currShopList %}
+                    <button onClick = "addShoppingList('{{ingredient}}', event)" name="shop-button" id="shop-{{ingredient}}" value="{{ingredient}}" class="favoritesBtn btn btn-primary mt-2">+ {{ingredient}}</button>
+               
+                    {% endif %}
+                  </div>
+                    {% endfor%}
+             
+                      
+            
+                  </div>
+                  <div class="footer">
+                    <span >Ingredients: {{recipe.ingredients|length}}</span>
+                    <p class="txt3" style="display: flex; justify-content: space-between;">
+                        <a style="color: gray;"id="res-fav-{{recipe.recipe_id}}-div" style="margin-right: 7px;">❤ {{recipe.fav_recipes|length}}</a> 
+                        <a style="text-decoration: none; color: gray;" href="/recipes/{{ recipe.recipe_id }}" ><i style="margin-right: 7px;" class="bi bi-book"></i>Details</a>
+                        <span class="comments"><a style="text-decoration: none; color: gray;" href="/recipes/{{ recipe.recipe_id }}" ><i class="fas fa-comments"></i>{{recipe.ratings|length}} Comments</a></span>
+                    </p>
+                </div>
+              </div>
+        
+             
+                {% endfor %}
+              </div>
+
+
+
 
 {% endif %}
 

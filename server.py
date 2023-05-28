@@ -196,6 +196,7 @@ def show_db_recipes():
 
     time_input = request.form.get("time")
     
+    print(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
 
     res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
   
@@ -305,13 +306,27 @@ def favorites_page():
     else:
         user_id = user.user_id
 
+
+        curr_shop_list = []
+    
+        for listobject in user.shopping_list:
+            for ingobject in listobject.ingredient:
+                curr_shop_list.append(ingobject.name)
+
+
+
+        curr_fav_recipes = []
+
+        for recobj in user.fav_recipes:
+            curr_fav_recipes.append(recobj.recipe_id)
+
         recipes = crud.get_users_fav_recipes(user_id)
         # Addvariable that says true if recipe is in favorite then add jinja for rendered button to have class favorited if true
 
 
 
 
-    return render_template("favorites.html", user=user, recipes=recipes)
+    return render_template("favorites.html", user=user, recipes=recipes, currShopList=curr_shop_list, currFavRecipes = curr_fav_recipes)
   
 
 
