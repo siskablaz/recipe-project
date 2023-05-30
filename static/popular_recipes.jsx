@@ -32,27 +32,67 @@
 </ul> */}
 
 function Recipe(props) {
+  const [favorite, setFavorite] = React.useState('');
+  const[favoriteButton, setFavoriteButton] = React.useState('')
+
+
+
+  function renderFavButton(recipe_id) {
+    fetch('/is-favorite-react', {
+      method: 'POST',
+      body: JSON.stringify({recipeId:recipe_id}),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then( (resp) => resp.text())
+    .then( (response) => {
+      return response
+    })
+
+  }
+  
+
+
+
+  function handleFavorite(evt) {
+    setFavorite(evt.target.value);
+
+    fetch('/add-favorite-react', {
+      method: 'POST',
+      body: JSON.stringify({recipeId:favorite}),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then( (resp) => resp.text())
+      .then( (response) => {
+          alert(response)
+          // extract particular attributes sent in response from the server and store them in state
+          if (response == 'Removing from Favorites' || response == 'Adding to Favorites'){
+          setFavoriteButton(response);
+          
+          }
+
+      })
+  }
+
     return (
   <div className="card" style={{width: "18rem", minWidth: "18rem", margin: "1rem"}}>
   <img src={props.image} className="card-img-top" alt="..."/>
+
+  <i style={{position: "inherit", top: "-47px", left: "8px", color: {renderFavButton(props.recipe_id)} }}title="Save to favorites"  id={'res-fav-'+props.recipe_id} class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipe_id} ></i>
   <div className="card-body">
     <h5 className="card-title" style={{fontWeight: "bold"}}>{props.title}</h5>
     <h4 className="card-title" style={{color: "green", fontSize: "20px"}}>Ready: {props.readyMinutes} min.</h4>
     <p className="card-text">ingredients: {(props.ingredients).length} </p>
 
-    
+    <h1>{favoriteButton}</h1>
   </div>
   
 
-  {/* <div className="card-body">
-    <a href={'/recipes/'+props.recipeId} className="card-link" >Recipe Details</a>
-    <p className="card-text">favorite count: {(props.favCount)} </p>
-    <p className="card-text" style={{fontWeight: "bold"}}>rating count: {(props.ratingCount)} </p>
-    <p className="card-text">Avg rating: {(props.ratingAvg)} </p>
-  </div> */}
-
   <div className="footer">
-  {/* <span >Ingredients: {(props.ingredients).length}</span> */}
+
   <p className="txt3" style={{display: "flex", "justify-content": "space-between"}}>
       <a style={{color: "gray","margin-right": "7px"}} id={'res-fav-'+props.recipeId+'-div'}>❤ {props.favCount}</a> 
       <a style={{"text-decoration": "none", color: "gray"}} href={'/recipes/'+props.recipeId } ><i style={{"margin-right": "7px"}} className="bi bi-book"></i>Details</a>
@@ -64,7 +104,7 @@ function Recipe(props) {
 </div>
 );
 
-  }
+} 
 
 
 // function KitchenSinkExample() {
@@ -113,7 +153,7 @@ function AllPopularRecipes() {
 
     return (
         <div className="example-section">
-            <h2>Popular Recipes</h2>
+            <h2 style={{"text-align": "center", "margin-top": "25px", "margin-bottom": "25px", "border-top": "none"}}>Popular Recipes</h2>
             <div id="recipes-container" style={{display: "flex", "flex-wrap": "wrap", "justify-content":"center"}} >
                 {
                     recipeData.length > 0  

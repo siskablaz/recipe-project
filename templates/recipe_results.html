@@ -18,6 +18,8 @@
             <img src="{{recipe.image}}"/>
             
               <div class="photos">
+              
+             
                 {% if recipe.recipe_id in currFavRecipes %}
                 <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">❤️ {{recipe.fav_recipes|length}}</button> -->
               <i  title="Remove from favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn favorited mt-2 fab fa-gratipay fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}"></i>
@@ -28,6 +30,7 @@
                 <i title="Save to favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}" ></i>
                 
                 {% endif %}
+
                 </div>
           </div>
           <div class="content">
@@ -38,8 +41,7 @@
               <p class="txt5">Ready time: {{recipe.ready_minutes}}</p>
               <p class="txt2">Missed Ingredients: {{recipe.missed_ingredient_count}}</p>
               
-              
-              
+
               {% for ingredient in recipe.missed_ingredients %}
           <div>
         {% if ingredient in currShopList %}
@@ -52,6 +54,8 @@
         {% endif %}
       </div>
         {% endfor%}
+
+ 
  
           
 

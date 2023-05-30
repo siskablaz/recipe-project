@@ -24,7 +24,7 @@ function addFavorite(recipe_id, page, event) {
         console.log(response)
         return response.text()})
       .then((responseMsg) => {
-        
+      alert(responseMsg)
       //   let likeButton = event.target.innerHTML
       //   let likeCount = Number(likeButton.slice(2))
         

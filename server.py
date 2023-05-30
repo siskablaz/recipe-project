@@ -204,21 +204,30 @@ def show_db_recipes():
     recipes = crud.add_recipes_to_db(res)
 
     logged_in_email = session.get("user_email")
-    user = crud.get_user_by_email(logged_in_email)
+
+    if logged_in_email is None:
+        curr_shop_list = []
+        curr_fav_recipes = []
+        user = None
+
+    else:
+        user = crud.get_user_by_email(logged_in_email)
 
 
-    curr_shop_list = []
-    
-    for listobject in user.shopping_list:
-        for ingobject in listobject.ingredient:
-            curr_shop_list.append(ingobject.name)
+        curr_shop_list = []
+        
+        for listobject in user.shopping_list:
+            for ingobject in listobject.ingredient:
+                curr_shop_list.append(ingobject.name)
 
-    
+        
 
-    curr_fav_recipes = []
+        curr_fav_recipes = []
 
-    for recobj in user.fav_recipes:
-        curr_fav_recipes.append(recobj.recipe_id)
+        for recobj in user.fav_recipes:
+            curr_fav_recipes.append(recobj.recipe_id)
+   
+
 
 
    
@@ -242,6 +251,80 @@ def show_recipes():
 
 
 
+@app.route("/is-favorite-react", methods=['POST'])
+def is_favorite_react():
+    logged_in_email = session.get("user_email")
+    recipe_id = request.json.get("recipeId")
+  
+
+    if logged_in_email is None:
+    
+        return "white"
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        this_user_id = user.user_id
+       
+        in_favorite = crud.is_recipe_in_favorite(this_user_id,recipe_id)
+        recipe = crud.get_recipe_by_id(recipe_id)
+        recipe_name = crud.get_recipe_by_id(recipe_id).title
+        
+        print(in_favorite)
+        is_favorite = None
+        if in_favorite:
+      
+            return "red"
+                # or can return as json jsonify({key:value,key:value,key:value})
+        else:
+      
+            return "white"
+
+
+
+
+
+@app.route("/add-favorite-react", methods=['POST'])
+def add_favorite_react():
+    logged_in_email = session.get("user_email")
+    recipe_id = request.json.get("recipeId")
+  
+
+    if logged_in_email is None:
+        flash("You must log in to save a recipe to favorites")
+        return "You must log in to save a recipe to favorites"
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        this_user_id = user.user_id
+       
+        in_favorite = crud.is_recipe_in_favorite(this_user_id,recipe_id)
+        recipe = crud.get_recipe_by_id(recipe_id)
+        recipe_name = crud.get_recipe_by_id(recipe_id).title
+        
+        print(in_favorite)
+        is_favorite = None
+        if in_favorite:
+            
+            db.session.delete(in_favorite)
+            db.session.commit()
+            print('removing')
+            print(in_favorite)
+            is_favorite = False
+      
+            return (f'Removing from Favorites')
+                # or can return as json jsonify({key:value,key:value,key:value})
+        else:
+            fav_recipe = crud.create_fav_recipe(recipe_id, this_user_id)
+
+            db.session.add(fav_recipe)
+            db.session.commit()
+            is_favorite = True
+
+            print(f'adding {fav_recipe}')
+      
+            return (f'Adding to Favorites')
+
+
+
+
 @app.route("/add-favorite", methods=['POST'])
 def add_favorite():
     # recipe_id = request.form.get("fav-button")
@@ -252,8 +335,7 @@ def add_favorite():
 
     if logged_in_email is None:
         flash("You must log in to save a recipe to favorites")
-        # This needs to be corrected
-        return (f'You need to login')
+        return "You must log in to save a recipe to favorites"
     else:
         user = crud.get_user_by_email(logged_in_email)
         this_user_id = user.user_id
