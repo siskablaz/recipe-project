@@ -33,10 +33,12 @@
 
 function Recipe(props) {
   const [favorite, setFavorite] = React.useState('');
-  const[favoriteButton, setFavoriteButton] = React.useState('')
+  const[favoriteButton, setFavoriteButton] = React.useState('red')
   // const[buttonColor, setButtonColor] = React.useState(renderFavButton(props.recipe_id))
 
-
+  // {
+  // props.currFavRecipes.indexOf(props.recipeId) !== -1 ? setFavoriteButton("red") : setFavoriteButton("white")
+  // } 
 
   // function renderFavButton(recipe_id) {
   //   fetch('/is-favorite-react', {
@@ -57,11 +59,15 @@ function Recipe(props) {
 
 
   function handleFavorite(evt) {
-    setFavorite(evt.target.value);
-    setButtonColor(buttonColor==='red'?'white':'red')
+   
+    console.log(evt.target.id);
+    setFavorite(evt.target.id);
+
+    let recipe_id = evt.target.id
+    // setButtonColor(buttonColor==='red'?'white':'red')
     fetch('/add-favorite-react', {
       method: 'POST',
-      body: JSON.stringify({recipeId:favorite}),
+      body: JSON.stringify({recipeId:recipe_id}),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -69,11 +75,16 @@ function Recipe(props) {
       .then( (resp) => resp.text())
       .then( (response) => {
           alert(response)
+
           // extract particular attributes sent in response from the server and store them in state
-          if (response == 'Removing from Favorites' || response == 'Adding to Favorites'){
-          setFavoriteButton(response);
+          if (response == 'Removing from Favorites'){
+            setFavoriteButton("white")
+            console.log(favoriteButton)
+          } 
+          else if (response == 'Adding to Favorites'){
           
-          
+            setFavoriteButton("red")
+            console.log(favoriteButton)
           }
 
       })
@@ -82,9 +93,12 @@ function Recipe(props) {
     return (
   <div className="card" style={{width: "18rem", minWidth: "18rem", height: "27rem", margin: "1rem"}}>
   <img src={props.image} className="card-img-top" alt="..."/>
+
+
+
 {
-  props.recipeId in currFavRecipes? <i style={{position: "inherit", top: "-212px", left: "8px", color:"red"}}title="Save to favorites"  id={'res-fav-'+props.recipe_id} class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipe_id} ></i> :
-                                    <i style={{position: "inherit", top: "-212px", left: "8px", color:"white"}} title="Save to favorites"  id={'res-fav-'+props.recipe_id} class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipe_id} ></i>
+  props.currFavRecipes.indexOf(props.recipeId) !== -1 ?  <i style={{position: "inherit", top: "-212px", left: "8px", color:`${favoriteButton}`}} title="Save to favorites"  id={props.recipeId} class="favResultsBtn favorited mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipeId} ></i> :
+                                    <i style={{position: "inherit", top: "-212px", left: "8px", color:`${favoriteButton}`}} title="Save to favorites"  id={props.recipeId} class="favResultsBtn not-favorited mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipeId} ></i>
 }
   
   <div className="card-body" style={{position: "relative",top: "-40px", overflow:"auto"}}>
@@ -92,7 +106,7 @@ function Recipe(props) {
     <h4 className="card-title" style={{color: "green", fontSize: "20px"}}>Ready: {props.readyMinutes} min.</h4>
     <p className="card-text">ingredients: {(props.ingredients).length} </p>
 
-    <h1>{favoriteButton}</h1>
+
   </div>
   
 
@@ -142,18 +156,21 @@ function Recipe(props) {
 
 function AllPopularRecipes() {
     const [recipeData, setRecipeData] = React.useState([]);
-
+    const [currFavRecipes, setCurrFavRecipes ]= React.useState([]);
     // nothing in dependency array means called on first render
     React.useEffect( () => {
         fetch('/popular-recipes.json')
         .then( (response) => {
             console.log(response)
             return response.json()} )
-        .then((resp) => {
+        .then((resp) => { 
             // resp.results is an array of objects
-            console.log(resp[0]["image"])
+            console.log("CURRENT FAVORITES");
+            console.log(resp["curr_fav_recipes"]);
             // setRecipeData(resp);
-            setRecipeData(resp[pop_recipes]);
+            setRecipeData(resp["pop_recipes"]);
+            // console.log(resp)+
+            setCurrFavRecipes(resp["curr_fav_recipes"]);
         })
     }, [] );
 
@@ -173,7 +190,7 @@ function AllPopularRecipes() {
                             favCount = {recipe.fav_count} 
                             ratingCount = {recipe.rating_count} 
                             ratingAvg = {recipe.rating_avg} 
-                            currFavRecipes = {resp[curr_fav_recipes]}
+                            currFavRecipes = {currFavRecipes}
                             /> 
                         )
                       )

@@ -23,6 +23,10 @@ h2 {
   color: red;
 }
 
+.not-favorited{
+  color:white;
+}
+
 
 .navbar .navbar-nav .nav-link {
   color: #616161;

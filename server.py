@@ -291,6 +291,15 @@ def add_favorite_react():
     logged_in_email = session.get("user_email")
     recipe_id = request.json.get("recipeId")
   
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
+    print(recipe_id)
 
     if logged_in_email is None:
         
@@ -742,11 +751,11 @@ def popular_recipes_json():
 
     print(pop_recipes)
 
+  
+    print(curr_fav_recipes)
 
-    
 
-
-    return jsonify([{pop_recipes:pop_recipes, curr_fav_recipes:curr_fav_recipes}])
+    return jsonify({"pop_recipes":pop_recipes, "curr_fav_recipes":curr_fav_recipes})
 
 
 @app.route("/popular-recipes")

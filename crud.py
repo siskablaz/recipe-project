@@ -231,6 +231,7 @@ def get_comments_by_recipe_id(recipe_id):
 
 
 def get_pop_recipes():
+    
 
     recipes = Recipe.query.all()
 
@@ -258,7 +259,7 @@ def get_pop_recipes():
         final_pop_recipes.append(recipe_dict)
 
 
-    return final_pop_recipes[:10]
+    return final_pop_recipes[:20]
         
 
 def add_recipes_to_db(res):
