@@ -33,7 +33,10 @@
 
 function Recipe(props) {
   const [favorite, setFavorite] = React.useState('');
-  const[favoriteButton, setFavoriteButton] = React.useState('')
+  const[favoriteButton, setFavoriteButton] = React.useState('');
+  const[numLikes, setNumLikes] = React.useState(props.favCount);
+
+  console.log(numLikes)
   // const[buttonColor, setButtonColor] = React.useState(renderFavButton(props.recipe_id))
 
   // {
@@ -79,14 +82,20 @@ function Recipe(props) {
           // extract particular attributes sent in response from the server and store them in state
           if (response == 'Removing from Favorites'){
             setFavoriteButton("white")
+            setNumLikes(numLikes+1)
+     
             console.log(favoriteButton)
+          
           } 
           else if (response == 'Adding to Favorites'){
           
             setFavoriteButton("red")
+            setNumLikes(numLikes-1)
             console.log(favoriteButton)
+        
           }
 
+          
       })
   }
 
@@ -113,7 +122,7 @@ function Recipe(props) {
   <div className="footer" style={{height: "50px", position: "absolute", bottom:"4px"}} >
 
   <p className="txt3" style={{display: "flex", "justify-content": "space-between"}}>
-      <a style={{color: "gray","margin-right": "7px"}} id={'res-fav-'+props.recipeId+'-div'}>❤ {props.favCount}</a> 
+      <a style={{color: "gray","margin-right": "7px"}} id={'res-fav-'+props.recipeId+'-div'}>❤ {numLikes}</a> 
       <a style={{"text-decoration": "none", color: "gray"}} href={'/recipes/'+props.recipeId } ><i style={{"margin-right": "7px"}} className="bi bi-book"></i>Details</a>
       <span className="comments"><a style={{"text-decoration": "none", color: "gray"}} href={'/recipes/'+props.recipeId} ><i className="fas fa-comments"></i>{props.ratingCount} Comments</a></span>
   </p>
