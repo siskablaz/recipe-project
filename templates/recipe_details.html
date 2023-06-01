@@ -2,14 +2,74 @@
 {% block title %}Recipe details{% endblock %}
 
 {% block body %}
-  <h1>All recipes</h1>
+  <!-- <h1>Recipe Details</h1> -->
 
-<h2>{{recipe.title}}</h2>
+<div class="rec-details-container">
 
-<img src="{{recipe.image}}" alt="{{recipe.title}} image">
+  <h1 style="text-align: left; margin-bottom: 50px; font-weight: bold;">{{recipe.title}}</h1>
+
+
+  
+
+
+  <div style="margin: 50px 0px;" class="row ">
+    <div  class="col-12">
+   
+      <div class="text-center">
+        <div class="row align-items-start">
+          <div style="border-right: solid;" class="col">
+            <i class="bi bi-egg fa-lg"> {{recipe.ingredients|length}} ingredients</i>
+            
+          </div>
+          <div style="border-right: solid;"class="col">
+            <i class="bi bi-alarm fa-lg"><span> {{recipe.ready_minutes}} minutes</span></i>
+          </div>
+          <div class="col" >
+            <i class="bi bi-card-checklist fa-lg"> {{recipe.instructions|length}} steps</i>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+    
+  </div>
+
+
+  <div class="row ">
+    <div  class="col-7 order-1">
+      <div class="card">
+        <img class="detail-img img-card-top" src="{{recipe.image}}" alt="{{recipe.title}} image">
+ 
+      </div>
+     
+    </div>
+    <div class="col-5 order-2">
+      
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><h2 style="border-top: none;">Ingredients:</h2></li>
+        {% for ingredient in recipe.ingredients %}
+        <li class="list-group-item">{{ingredient}}</li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+
+  
+
+
+
+<div style="margin: 25px 0px; background-color: white; padding: 20px;">
+  <ol>
+   <h2 style="border-top: none; margin: 2rem 0rem; padding-top: 0">Instructions:</h2>
+    {% for instruction in recipe.instructions %}
+    <li style="border-top: solid; border-color: #ccc;"><div style="margin: 20px 0px;">{{instruction}}</div></li>
+    {% endfor %}
+  </ol>
+</div>
 
 {% if session.get('user_email') %}
-<h2>Rate this Recipe</h2>
+<h2 style=" margin-top: 50px; border-top:none; border-bottom: solid; border-bottom-color: #ccc;">Reviews</h2>
 
 <form id="rating-form" action="/recipes/{{ recipe.recipe_id }}/ratings" method="POST">
   <p>
@@ -41,16 +101,10 @@
 </div>
 {% endif %}
 
-{% for ingredient in recipe.ingredients %}
-<div>{{ingredient}}</div>
-{% endfor %}
 
-<ol>
-{% for instruction in recipe.instructions %}
-<li>{{instruction}}</li>
-{% endfor %}
-</ol>
 
+
+</div>
 
 
 <script src="/static/update_rating.js"></script>

@@ -35,7 +35,10 @@ DEFAULT_WEATHER = {'forecast': 'Kind of boring.', 'temp': '68F'}
 def index():
     """Show our index page."""
 
-    return render_template("homepage.html")
+    popular_recipes = crud.get_pop_recipes()
+    print(popular_recipes[0]["image"])
+
+    return render_template("homepage.html", popularRecipes = popular_recipes)
 
 
 @app.route('/fortune')
@@ -185,7 +188,8 @@ def show_db_recipes_bootstrap():
 def show_db_recipes():
  
     recipe_input = request.form.get("recipe-input")
-    recipe_input = recipe_input.replace(" ","")
+    recipe_input = recipe_input.replace(", ",",")
+    recipe_input = recipe_input.replace(" ","%20")
 
 
     diet_input = request.form.get("diet")
@@ -289,7 +293,7 @@ def add_favorite_react():
   
 
     if logged_in_email is None:
-        flash("You must log in to save a recipe to favorites")
+        
         return "You must log in to save a recipe to favorites"
     else:
         user = crud.get_user_by_email(logged_in_email)
@@ -710,12 +714,39 @@ def view_temp():
 def popular_recipes_json():
     pop_recipes = crud.get_pop_recipes()
 
+    logged_in_email = session.get("user_email")
+
+    if logged_in_email is None:
+        curr_shop_list = []
+        curr_fav_recipes = []
+        user = None
+
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+
+
+        curr_shop_list = []
+        
+        for listobject in user.shopping_list:
+            for ingobject in listobject.ingredient:
+                curr_shop_list.append(ingobject.name)
+
+        
+
+        curr_fav_recipes = []
+
+        for recobj in user.fav_recipes:
+            curr_fav_recipes.append(recobj.recipe_id)
+
+    
 
     print(pop_recipes)
+
+
     
 
 
-    return jsonify(pop_recipes)
+    return jsonify([{pop_recipes:pop_recipes, curr_fav_recipes:curr_fav_recipes}])
 
 
 @app.route("/popular-recipes")

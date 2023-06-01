@@ -258,7 +258,7 @@ def get_pop_recipes():
         final_pop_recipes.append(recipe_dict)
 
 
-    return final_pop_recipes
+    return final_pop_recipes[:10]
         
 
 def add_recipes_to_db(res):

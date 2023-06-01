@@ -34,30 +34,31 @@
 function Recipe(props) {
   const [favorite, setFavorite] = React.useState('');
   const[favoriteButton, setFavoriteButton] = React.useState('')
+  // const[buttonColor, setButtonColor] = React.useState(renderFavButton(props.recipe_id))
 
 
 
-  function renderFavButton(recipe_id) {
-    fetch('/is-favorite-react', {
-      method: 'POST',
-      body: JSON.stringify({recipeId:recipe_id}),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then( (resp) => resp.text())
-    .then( (response) => {
-      return response
-    })
+  // function renderFavButton(recipe_id) {
+  //   fetch('/is-favorite-react', {
+  //     method: 'POST',
+  //     body: JSON.stringify({recipeId:recipe_id}),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //   .then( (resp) => resp.text())
+  //   .then( (response) => {
+  //     return response
+  //   })
 
-  }
+  // }
   
 
 
 
   function handleFavorite(evt) {
     setFavorite(evt.target.value);
-
+    setButtonColor(buttonColor==='red'?'white':'red')
     fetch('/add-favorite-react', {
       method: 'POST',
       body: JSON.stringify({recipeId:favorite}),
@@ -72,17 +73,21 @@ function Recipe(props) {
           if (response == 'Removing from Favorites' || response == 'Adding to Favorites'){
           setFavoriteButton(response);
           
+          
           }
 
       })
   }
 
     return (
-  <div className="card" style={{width: "18rem", minWidth: "18rem", margin: "1rem"}}>
+  <div className="card" style={{width: "18rem", minWidth: "18rem", height: "27rem", margin: "1rem"}}>
   <img src={props.image} className="card-img-top" alt="..."/>
-
-  <i style={{position: "inherit", top: "-47px", left: "8px", color: {renderFavButton(props.recipe_id)} }}title="Save to favorites"  id={'res-fav-'+props.recipe_id} class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipe_id} ></i>
-  <div className="card-body">
+{
+  props.recipeId in currFavRecipes? <i style={{position: "inherit", top: "-212px", left: "8px", color:"red"}}title="Save to favorites"  id={'res-fav-'+props.recipe_id} class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipe_id} ></i> :
+                                    <i style={{position: "inherit", top: "-212px", left: "8px", color:"white"}} title="Save to favorites"  id={'res-fav-'+props.recipe_id} class="favResultsBtn  mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipe_id} ></i>
+}
+  
+  <div className="card-body" style={{position: "relative",top: "-40px", overflow:"auto"}}>
     <h5 className="card-title" style={{fontWeight: "bold"}}>{props.title}</h5>
     <h4 className="card-title" style={{color: "green", fontSize: "20px"}}>Ready: {props.readyMinutes} min.</h4>
     <p className="card-text">ingredients: {(props.ingredients).length} </p>
@@ -91,7 +96,7 @@ function Recipe(props) {
   </div>
   
 
-  <div className="footer">
+  <div className="footer" style={{height: "50px", position: "absolute", bottom:"4px"}} >
 
   <p className="txt3" style={{display: "flex", "justify-content": "space-between"}}>
       <a style={{color: "gray","margin-right": "7px"}} id={'res-fav-'+props.recipeId+'-div'}>❤ {props.favCount}</a> 
@@ -147,7 +152,8 @@ function AllPopularRecipes() {
         .then((resp) => {
             // resp.results is an array of objects
             console.log(resp[0]["image"])
-            setRecipeData(resp);
+            // setRecipeData(resp);
+            setRecipeData(resp[pop_recipes]);
         })
     }, [] );
 
@@ -167,6 +173,7 @@ function AllPopularRecipes() {
                             favCount = {recipe.fav_count} 
                             ratingCount = {recipe.rating_count} 
                             ratingAvg = {recipe.rating_avg} 
+                            currFavRecipes = {resp[curr_fav_recipes]}
                             /> 
                         )
                       )

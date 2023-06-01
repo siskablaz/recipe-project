@@ -67,18 +67,18 @@ function addFavorite(recipe_id, page, event) {
           document.getElementById(`${event.target.id}-div`).innerHTML = `❤ ${likeCount+1}`;
           document.getElementById(`${event.target.id}`).classList.add('favorited');
           document.getElementById(`${event.target.id}`).title = ('Remove from Favorites');
-          alert(responseMsg)
+          // alert(responseMsg)
       }
       else if (responseMsg == 'Removing from Favorites'){
           document.getElementById(`${event.target.id}-div`).innerHTML = `❤ ${likeCount-1}`;
           document.getElementById(`${event.target.id}`).classList.remove('favorited');
           document.getElementById(`${event.target.id}`).title = ('Save to Favorites');
-          alert(responseMsg)
+          // alert(responseMsg)
       }
       else if (responseMsg == 'Removing'){
         document.getElementById(`${event.target.value}`).style.display= 'none';
       
-          alert(responseMsg)
+          // alert(responseMsg)
           
       }
 
