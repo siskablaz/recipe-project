@@ -33,7 +33,7 @@
 
 function Recipe(props) {
   const [favorite, setFavorite] = React.useState('');
-  const[favoriteButton, setFavoriteButton] = React.useState('red')
+  const[favoriteButton, setFavoriteButton] = React.useState('')
   // const[buttonColor, setButtonColor] = React.useState(renderFavButton(props.recipe_id))
 
   // {
@@ -91,7 +91,7 @@ function Recipe(props) {
   }
 
     return (
-  <div className="card" style={{width: "18rem", minWidth: "18rem", height: "27rem", margin: "1rem"}}>
+  <div className="card" style={{width: "18rem", minWidth: "18rem", height: "26rem", margin: "1rem"}}>
   <img src={props.image} className="card-img-top" alt="..."/>
 
 
