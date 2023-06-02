@@ -81,7 +81,12 @@
         <div class="navbar-nav">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
           <a class="nav-link active" aria-current="page" href="/popular-recipes">Explore</a>
+          {% if session.get('user_email') %}
+          <a class="nav-link" href="/logout">Logout</a>
+          {% else %}
+
           <a class="nav-link" href="/login-page">Login</a>
+          {% endif %}
           </div>
           </div>
           <a class="navbar-brand" href="/" style="margin-left: auto; margin-right: auto;">Navbar</a>

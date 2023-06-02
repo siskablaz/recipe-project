@@ -152,8 +152,13 @@ def register_page():
 #     recipes=[recipe_response,recipe_response]
 #     crud.create_recipe_api(recipes)
 
+@app.route('/logout')
+def logout():
 
+    session.clear()
 
+    flash('You have been logged out successfully.')
+    return redirect('/')
    
 
 #     return render_template("recipe_results.html", recipes=recipes)
@@ -396,7 +401,7 @@ def favorites_page():
     user = crud.get_user_by_email(logged_in_email)
 
     if user is None:
-        flash("You must log in to save a recipe to favorites")
+        flash("You must log in to view favorites")
         return redirect("/")
     else:
         user_id = user.user_id
@@ -492,14 +497,21 @@ def recipe_details(recipe_id):
 
         recipe_rating_count = crud.get_rating_count_by_recipe(recipe_id)
         
-        recent_comment = all_recipe_comments[-1]
+        if len(all_recipe_comments['comments']) > 0:
+            recent_comment = all_recipe_comments['comments'][-1]
+            recent_score = all_recipe_comments['scores'][-1]
+        else:
+            recent_comment = "no comments"
+            recent_score = "no scores"
 
         user_rating = crud.get_rating_by_recipe_user(recipe_id,this_user_id)
 
         recipe_is_rated = crud.recipe_has_rating(recipe_id)
 
+        print(all_recipe_ratings)
+        print(all_recipe_comments)
 
-    return render_template("recipe_details.html", recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments, recent_comment=recent_comment)
+    return render_template("recipe_details.html", recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments, recent_comment=recent_comment, recent_score=recent_score)
 
 
 @app.route("/add-shopping", methods=['POST'])

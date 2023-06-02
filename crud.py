@@ -165,12 +165,29 @@ def recipe_has_rating(recipe_id):
     return Rating.query.filter(Rating.recipe_id == recipe_id).first()
 
 def all_comments_for_recipe(ratings_list):
+
+    
+
+    rec_review_dict = {}
+
     all_recipe_comments = []
+    all_recipe_scores = []
+    all_recipe_users = []
+
 
     for rating in ratings_list:
         all_recipe_comments.append(rating.comment)
+        all_recipe_scores.append(rating.score) 
+        all_recipe_users.append(rating.user.email)
 
-    return all_recipe_comments
+
+    rec_review_dict['comments'] = all_recipe_comments
+    rec_review_dict['scores'] = all_recipe_scores
+    rec_review_dict['users'] = all_recipe_users
+
+
+
+    return rec_review_dict
 
 
 def get_rating_count_by_recipe(recipe_id):
