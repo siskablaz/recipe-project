@@ -13,7 +13,7 @@
   <!-- First Row -->
 
   <!-- title -->
-  <div style=" margin: 1.5 rem 0px;" class="row ">
+  <div style=" margin: 1.5rem 0px;" class="row ">
     <div  style="padding: 1rem;" class="col-sm-12 col-md-6 order-sm-1">
 
            
@@ -40,10 +40,22 @@
      
     </div>
 
-   
     
   </div>
 
+  {% if recipe.recipe_id in curr_fav_recipes %}
+  <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">❤️ {{recipe.fav_recipes|length}}</button> -->
+<i  style="z-index: 1; position: relative; top: 50px;" title="Remove from favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn favorited mt-2 bi bi-bookmark-heart fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}"></i>
+
+{% endif %}
+
+  {% if recipe.recipe_id not in curr_fav_recipes %}
+  <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.fav_recipes|length}}</button> -->
+  <i  style="z-index: 1;" title="Save to favorites"  id="res-fav-{{recipe.recipe_id}}" class="not-favorited favResultsBtn  mt-2 bi bi-bookmark-heart fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}" ></i>
+  
+  {% endif %}
+
+<span id="res-fav-{{recipe.recipe_id}}-div">❤ {{recipe.fav_recipes|length}}</span>
   <!-- Rating area -->
   {% if recipe_is_rated %}
   <div style="display: flex; justify-content: center;">
@@ -66,6 +78,10 @@
       
 
       <div style="border: none; height: 100%"class="card">
+
+      
+
+  <!-- Image -->
         <img style="height: 100%; object-fit: cover;" class="detail-img img-card-top" src="{{recipe.image}}" alt="{{recipe.title}} image">
  
       </div>
@@ -153,6 +169,6 @@
 
 </div>
 
-
+<script src="/static/display_recipes.js"></script>
 <script src="/static/update_rating.js"></script>
 {% endblock %}

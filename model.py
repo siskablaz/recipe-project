@@ -79,7 +79,7 @@ class Ingredient(db.Model):
     __tablename__ = "ingredients"
 
     ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(100))
     complete = db.Column(db.Boolean, default=False)
     shopping_list_id = db.Column(db.Integer, db.ForeignKey("shopping_lists.shopping_list_id"))
 

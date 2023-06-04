@@ -82,7 +82,7 @@ function Recipe(props) {
           // extract particular attributes sent in response from the server and store them in state
           if (response == 'Removing from Favorites'){
             setFavoriteButton("white")
-            setNumLikes(numLikes+1)
+            setNumLikes(numLikes-1)
      
             console.log(favoriteButton)
           
@@ -90,7 +90,7 @@ function Recipe(props) {
           else if (response == 'Adding to Favorites'){
           
             setFavoriteButton("red")
-            setNumLikes(numLikes-1)
+            setNumLikes(numLikes+1)
             console.log(favoriteButton)
         
           }

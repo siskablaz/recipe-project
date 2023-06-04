@@ -55,7 +55,7 @@ for recipe in recipe_results:
     missed_ingredients_list = []
     for ingredient in missed_ingredients:
         ingredient_name = ingredient["name"].replace("''",""''"")
-        ingredient_name = ingredient["name"].replace("'",""''"")
+        ingredient_name = ingredient_name.replace("'","")
         missed_ingredients_list.append(ingredient_name)
     
     print(missed_ingredients_list)
@@ -98,7 +98,7 @@ sample_scores = [5,1,3,5,3,4,5,2,3,1]
 
 
 for n in range(10):
-    email = f"user{n}@test.com"  
+    email = f"user{n}"  
     password = "test"
     count = 0
 

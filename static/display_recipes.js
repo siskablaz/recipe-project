@@ -55,13 +55,9 @@ function addFavorite(recipe_id, page, event) {
         
         let buttonClasses = event.target.classList
 
-        console.log(buttonClasses.contains("favoritesBtn"))
-        console.log(likeCount)
-        console.log(event.target)
+
         console.log(event.target.id)
-        console.log(responseMsg)
-        console.log(likeCountDiv)
-        console.log(likeCount)
+
 
         if (responseMsg == 'Adding to Favorites') {
           document.getElementById(`${event.target.id}-div`).innerHTML = `❤ ${likeCount+1}`;

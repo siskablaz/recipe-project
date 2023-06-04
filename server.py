@@ -36,7 +36,10 @@ def index():
     """Show our index page."""
 
     popular_recipes = crud.get_pop_recipes()
-    print(popular_recipes[0]["image"])
+
+    print(session.get('user_email'))
+    print(session.get('user_email'))
+    print(session.get('user_email'))
 
     return render_template("homepage.html", popularRecipes = popular_recipes)
 
@@ -295,16 +298,10 @@ def is_favorite_react():
 def add_favorite_react():
     logged_in_email = session.get("user_email")
     recipe_id = request.json.get("recipeId")
+
+
   
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
-    print(recipe_id)
+
 
     if logged_in_email is None:
         
@@ -400,6 +397,10 @@ def favorites_page():
     logged_in_email = session.get("user_email")
     user = crud.get_user_by_email(logged_in_email)
 
+    print(session.get('user_email'))
+    print(session.get('user_email'))
+    print(session.get('user_email'))
+
     if user is None:
         flash("You must log in to view favorites")
         return redirect("/")
@@ -480,7 +481,11 @@ def recipe_details(recipe_id):
     recipe_object = crud.get_recipe_by_id(recipe_id)
     logged_in_email = session.get("user_email")
     user = crud.get_user_by_email(logged_in_email)
+
     if user is None:
+        curr_shop_list = []
+        curr_fav_recipes = []
+        user = None
         flash("You must log in to view recipe details")
         # This needs to be corrected
         return redirect('/')
@@ -507,11 +512,17 @@ def recipe_details(recipe_id):
         user_rating = crud.get_rating_by_recipe_user(recipe_id,this_user_id)
 
         recipe_is_rated = crud.recipe_has_rating(recipe_id)
+ 
 
-        print(all_recipe_ratings)
-        print(all_recipe_comments)
 
-    return render_template("recipe_details.html", recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments, recent_comment=recent_comment, recent_score=recent_score)
+        curr_fav_recipes = []
+
+        for recobj in user.fav_recipes:
+            curr_fav_recipes.append(recobj.recipe_id)
+
+
+
+    return render_template("recipe_details.html", curr_fav_recipes=curr_fav_recipes, recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments, recent_comment=recent_comment, recent_score=recent_score)
 
 
 @app.route("/add-shopping", methods=['POST'])
@@ -706,7 +717,7 @@ def create_rating(recipe_id):
             db.session.add(rating)
             db.session.commit()
 
-        flash(f"{user.user_id} rated this movie {rating_score} out of 5.")
+        # flash(f"{user.user_id} rated this movie {rating_score} out of 5.")
 
     return redirect(f"/recipes/{recipe_id}")
 

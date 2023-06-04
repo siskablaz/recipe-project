@@ -11,7 +11,9 @@
 
 <h1 style="margin-top: 3rem; margin-bottom: 3rem;">{{ user.email }}'s Favorites Page</h1>
 
-
+{% if recipes|length == 0 %}
+<h4 style="text-align: center; color: gray;">You have no recipes saved to Favorites</h4>
+{% endif %}
             <div class="container">
                 {% for recipe in recipes %}
                
