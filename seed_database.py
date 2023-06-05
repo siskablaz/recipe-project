@@ -116,7 +116,7 @@ for recipe in recipe_id_list:
         comment = sample_comments[i]
         score = sample_scores[i]
         count = count + 1
-        rating_sample = crud.create_rating(score, comment, count, recipe_id, user.user_id)
+        rating_sample = crud.create_rating(score, comment, count, recipe_id, i+1)
         model.db.session.add(rating_sample)
 
 

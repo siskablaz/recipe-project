@@ -37,9 +37,7 @@ def index():
 
     popular_recipes = crud.get_pop_recipes()
 
-    print(session.get('user_email'))
-    print(session.get('user_email'))
-    print(session.get('user_email'))
+
 
     return render_template("homepage.html", popularRecipes = popular_recipes)
 
@@ -521,6 +519,7 @@ def recipe_details(recipe_id):
             curr_fav_recipes.append(recobj.recipe_id)
 
 
+        print(all_recipe_comments)
 
     return render_template("recipe_details.html", curr_fav_recipes=curr_fav_recipes, recipe_rating_count=recipe_rating_count, recipe_is_rated=recipe_is_rated, recipe=recipe_object, user_rating=user_rating, avg_rating=avg_rating, comments_list=comments_list, all_recipe_comments=all_recipe_comments, recent_comment=recent_comment, recent_score=recent_score)
 

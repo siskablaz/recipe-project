@@ -43,19 +43,22 @@
     
   </div>
 
+<div style="width: 100%; display:flex; justify-content:center;">
   {% if recipe.recipe_id in curr_fav_recipes %}
   <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">❤️ {{recipe.fav_recipes|length}}</button> -->
-<i  style="z-index: 1; position: relative; top: 50px;" title="Remove from favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn favorited mt-2 bi bi-bookmark-heart fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}"></i>
+<i  style=" padding: 0; display: inline; position: relative; top: -17px; left: -8px;" title="Remove from favorites"  id="res-fav-{{recipe.recipe_id}}" class="favResultsBtn favorited mt-2 bi bi-bookmark-heart fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}"></i><p style="display: inline; color: black; font-size: medium; margin: 0;">Save Recipe</p>
 
 {% endif %}
 
   {% if recipe.recipe_id not in curr_fav_recipes %}
   <!-- <button onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" title="Save to favorites" name="fav-button"  value="res-fav-{{recipe.recipe_id}}" class="favResultsBtn btn btn-primary mt-2" id="res-fav-{{recipe.recipe_id}}">♡ {{recipe.fav_recipes|length}}</button> -->
-  <i  style="z-index: 1;" title="Save to favorites"  id="res-fav-{{recipe.recipe_id}}" class="not-favorited favResultsBtn  mt-2 bi bi-bookmark-heart fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}" ></i>
+  <i  style="padding: 0; display: inline; position: relative; top: -17px; left: -8px;" title="Save to favorites"  id="res-fav-{{recipe.recipe_id}}" class=" favResultsBtn  mt-2 bi bi-bookmark-heart fa-2x" onClick = "addFavorite('{{recipe.recipe_id}}', 'results_page', event)" value="res-fav-{{recipe.recipe_id}}" ></i><p style="display: inline; color: black; font-size: medium; margin: 0;">Save Recipe</p>
   
   {% endif %}
 
-<span id="res-fav-{{recipe.recipe_id}}-div">❤ {{recipe.fav_recipes|length}}</span>
+</div>
+
+<span style="visibility: hidden;" id="res-fav-{{recipe.recipe_id}}-div">❤ {{recipe.fav_recipes|length}}</span>
   <!-- Rating area -->
   {% if recipe_is_rated %}
   <div style="display: flex; justify-content: center;">
@@ -119,11 +122,20 @@
   
 
   
+<div style="margin-bottom: 4rem;">
 
-
-  <h2 style=" margin-top: 50px; border-top:none; border-bottom: solid; border-bottom-color: #ccc;" id="reviews">Reviews ({{all_recipe_comments['comments']|length}})</h2>
+  <h2 style=" margin-top: 50px; border-top:none;" id="reviews">Reviews ({{all_recipe_comments['comments']|length}})</h2>
 {% if session.get('user_email') %}
 
+{% if recipe_is_rated %}
+
+<!-- <span style="font-size: 2rem; font-weight: bold; margin: 0 0;" id="rating-score">{{avg_rating}}</span> -->
+
+{% for i in range((avg_rating|int)) %}
+<i  class="bi bi-star-fill fa-2x"></i>
+{% endfor %}
+
+{% endif %}
 
 <form id="rating-form" action="/recipes/{{ recipe.recipe_id }}/ratings" method="POST">
   <p>
@@ -135,36 +147,49 @@
       {% endfor %}
     </select>
   </p>
-  <p><input type="text" id="comment-input" name="comment-input"></p>
+  <p><input type="text" id="comment-input" name="comment-input" placeholder="Leave a Review!" style="height: 5rem; width: 80%;"></p>
 
-  <p><button type="submit" id="rating-id-btn" >submit</button></p>
+  <p><button type="submit" id="rating-id-btn" class="btn btn-primary" style="top:0;">submit</button></p>
 
 
 
 </form>
 {% endif %}
 {% if recipe_is_rated %}
-<p id="rating-score">Avg. Rating: {{avg_rating}}</p>
+<!-- <p id="rating-score">Avg. Rating: {{avg_rating}}</p>
 <p id="rating-count">rating count: {{recipe_rating_count}}</p>
-<p> comment count:{{all_recipe_comments['comments']|length}} </p>
+<p> comment count:{{all_recipe_comments['comments']|length}} </p> -->
 
+
+
+<div style=" padding: 1rem; margin: 2rem 0; border-top: solid; border-bottom: solid; border-color: #ccc;">
+  <p style="font-size: medium; font-weight: bold; margin: 0;">{{all_recipe_comments['users'][-1]}}</p>
 {% for i in range(recent_score|int) %}
 <i class="bi bi-star-fill"></i>
 {% endfor %}
-<p id="rating-comment"> {{recent_comment}}</p><button onClick = "showAllComments(event)" id="show-all-comments" >Show all comments ▾</button>
+<p id="rating-comment" style="margin: 0;"> {{recent_comment}}</p>
+</div>
+
+
+<button onClick = "showAllComments(event)" id="show-all-comments" >Show all comments ▾</button>
 <div id="all-comments" style="display: none;">
 {% for i in range(all_recipe_comments['comments']|length) %}
 
-<p>{{all_recipe_comments['scores'][i]}}</p>
+
+
+<div style="border-bottom: solid; border-color: #ccc; margin: 1rem;">
+<!-- <p>{{all_recipe_comments['scores'][i]}}</p> -->
+<p style="font-size: medium; font-weight: bold; margin: 0;">{{all_recipe_comments['users'][i]}}</p>
 {% for i in range((all_recipe_comments['scores'][i]|int)) %}
 <i class="bi bi-star-fill"></i>
 {% endfor %}
 <p> {{all_recipe_comments['comments'][i]}}</p>
+</div>
 {% endfor %}
 </div>
 {% endif %}
 
-
+</div>
 
 
 </div>
