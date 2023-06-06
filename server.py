@@ -401,7 +401,7 @@ def favorites_page():
 
     if user is None:
         flash("You must log in to view favorites")
-        return redirect("/")
+        return redirect("/login-page")
     else:
         user_id = user.user_id
 
@@ -486,7 +486,7 @@ def recipe_details(recipe_id):
         user = None
         flash("You must log in to view recipe details")
         # This needs to be corrected
-        return redirect('/')
+        return redirect('/login-page')
     else:
         this_user_id = user.user_id
         all_recipe_ratings = crud.get_all_recipe_ratings(recipe_id)
@@ -579,7 +579,7 @@ def shopping_list_page():
     
     if user is None:
         flash("You must log in to save a recipe to favorites")
-        return redirect("/")
+        return redirect("/login-page")
 
     else:
         user_id = user.user_id
