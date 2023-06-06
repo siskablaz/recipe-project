@@ -1,9 +1,30 @@
+a{
+ color: #000000;
+ font-family: merriweather;
+}
+
+h1{
+  font-family: merriweather;
+  font-weight: 900;
+}
 h2 {
   
   border-top: solid 1px #ccc;
   padding-top: 0.2em;
   font-family: merriweather;
+  color: ;
   font-weight: 700;
+}
+
+.btn:hover{
+background-color: #d35f00;
+border-color: #d35f00;
+
+}
+
+.form-check-input:checked {
+  background-color: #d35f00;
+  border-color: #d35f00;
 }
 
 #fortune-text {
@@ -22,7 +43,7 @@ h2 {
 }
 
 .favorited {
-  color: red;
+  color: #d81600;
 }
 
 .not-favorited{
@@ -157,7 +178,7 @@ h1{
 .txt5{
   position: relative;
   top: 25px;
-  color: #E74C3C;
+  color: #7e7e7e;
   font-size: 23px;
 }
 .txt2{
@@ -201,6 +222,8 @@ justify-content: center;
 .btn{
   position: relative;
   top: 20px;
+  background-color: #d35f00;
+  border-color: #d35f00;
 }
 
 .form-check-label{
@@ -268,6 +291,7 @@ justify-content: center;
 }
 
 
+
 .btn-secondary,
 .btn-secondary:focus,
 .btn-secondary:active
@@ -275,20 +299,20 @@ justify-content: center;
 
 {
   color: #fff;
-  background-color: #00838f !important;
-  border-color: #00838f !important;
+  background-color: #6b6b6b !important;
+  border-color: #6b6b6b!important;
   box-shadow: none;
 }
 
 
 .advanced{
 
-  color: #00838f !important;
+  color: #6b6b6b !important;
 }
 
 .form-control:focus{
   box-shadow: none;
-  border: 1px solid #00838f;
+  border: 1px solid #6b6b6b;
 }
 
 .form-control {
@@ -472,4 +496,8 @@ justify-content: center;
 
 #rating-form {
   margin: 2rem 0rem;
+}
+
+.bi-star-fill{
+  color:#ffd412;
 }
