@@ -8,6 +8,7 @@
 
 {% if session.get('user_email') %}
 
+<div class="background-shopping"></div>
 
 <h1 style="margin-top: 3rem; margin-bottom: 3rem;">{{ user.email }}'s Shopping List</h1>
 
@@ -30,9 +31,9 @@
         <!-- <button type="button" style="background-color: rgb(76, 177, 72); border: 0cm;" class="list-group-item list-group-item-action active" aria-current="true">
             <h1>{{ user.user_id }}'s Shopping List</h1>
           </button> -->
-        <li class="list-group-item">
+        <li style="padding: 1.5rem 1rem" class="list-group-item">
           <input onClick= "completeItem('{{ingredient.name}}', event)" name="complete-btn" value="{{ingredient.name}}" class="form-check-input me-1" type="checkbox" name="complete-btn" id="firstCheckbox">
-          <label id='shop-list-{{ingredient.name}}' class="form-check-label" for="firstCheckbox">{{ ingredient.name }}</label>
+          <label style="margin-left: .5rem;" id='shop-list-{{ingredient.name}}' class="form-check-label" for="firstCheckbox">{{ ingredient.name }}</label>
         </li>
 
 

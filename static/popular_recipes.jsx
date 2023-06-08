@@ -106,14 +106,14 @@ function Recipe(props) {
 
 
 {
-  props.currFavRecipes.indexOf(props.recipeId) !== -1 ?  <i style={{position: "inherit", top: "-212px", left: "8px", color:`${favoriteButton}`}} title="Save to favorites"  id={props.recipeId} class="favResultsBtn favorited mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipeId} ></i> :
+  props.currFavRecipes.indexOf(props.recipeId) !== -1 ?  <i style={{"font-size": "2.5rem", position: "inherit", top: "-212px", left: "8px", color:`${favoriteButton}`}} title="Save to favorites"  id={props.recipeId} class="favResultsBtn favorited mt-2 fab fa-gratipay " onClick = {handleFavorite} value={props.recipeId} ></i> :
                                     <i style={{position: "inherit", top: "-212px", left: "8px", color:`${favoriteButton}`}} title="Save to favorites"  id={props.recipeId} class="favResultsBtn not-favorited mt-2 fab fa-gratipay fa-2x" onClick = {handleFavorite} value={props.recipeId} ></i>
 }
   
   <div className="card-body" style={{position: "relative",top: "-40px", overflow:"auto"}}>
-    <h5 className="card-title" style={{fontWeight: "bold"}}>{props.title}</h5>
-    <h4 className="card-title" style={{color: "green", fontSize: "20px"}}>Ready: {props.readyMinutes} min.</h4>
-    <p className="card-text">ingredients: {(props.ingredients).length} </p>
+    <h4 className="card-title" style={{fontWeight: "bold"}}>{props.title}</h4>
+    <h4 className="card-title" style={{color:"#7e7e7e", fontSize: "20px"}}>Ready: {props.readyMinutes} min.</h4>
+    <p className="card-text" style={{color:"#7e7e7e"}} >ingredients: {(props.ingredients).length} </p>
 
 
   </div>
@@ -124,7 +124,7 @@ function Recipe(props) {
   <p className="txt3" style={{display: "flex", "justify-content": "space-between"}}>
       <a style={{color: "gray","margin-right": "7px"}} id={'res-fav-'+props.recipeId+'-div'}>❤ {numLikes}</a> 
       <a style={{"text-decoration": "none", color: "gray"}} href={'/recipes/'+props.recipeId } ><i style={{"margin-right": "7px"}} className="bi bi-book"></i>Details</a>
-      <span className="comments"><a style={{"text-decoration": "none", color: "gray"}} href={'/recipes/'+props.recipeId} ><i className="fas fa-comments"></i>{props.ratingCount} Comments</a></span>
+      <span className="comments"><a style={{"text-decoration": "none", color: "gray"}} href={'/recipes/'+props.recipeId} ><i className="fas fa-comments"></i>{props.ratingCount}</a></span>
   </p>
 </div>
 
@@ -185,7 +185,7 @@ function AllPopularRecipes() {
 
     return (
         <div className="example-section">
-            <h2 style={{"text-align": "center", "margin-top": "25px", "margin-bottom": "25px", "border-top": "none"}}>Popular Recipes</h2>
+            <h1 style={{"text-align": "center", "margin-top": "30px", "margin-bottom": "25px", "border-top": "none"}}>Popular Recipes</h1>
             <div id="recipes-container" style={{display: "flex", "flex-wrap": "wrap", "justify-content":"center"}} >
                 {
                     recipeData.length > 0  

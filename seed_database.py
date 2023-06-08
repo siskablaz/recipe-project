@@ -11,11 +11,12 @@ import server
 
 os.system('dropdb recipes')
 os.system('createdb recipes')
+API_KEY= os.environ["API_KEY"]
 
 model.connect_to_db(server.app)
 model.db.create_all()
 
-res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients=flour,sugar&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
+res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey={API_KEY}&includeIngredients=flour,sugar&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
 # https://api.spoonacular.com/recipes/findByIngredients?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&ingredients=apples,flour,sugar&number=1
 recipe_results = res.json()
 recipe_results = recipe_results["results"]

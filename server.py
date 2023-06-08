@@ -2,13 +2,14 @@ from flask import Flask, render_template, request, flash, session, redirect, jso
 from model import connect_to_db, db
 import crud
 import requests
+import os 
 
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
-
+API_KEY= os.environ["API_KEY"]
 
 import random
 
@@ -206,7 +207,7 @@ def show_db_recipes():
 
     time_input = request.form.get("time")
     
-    print(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
+    print(f'https://api.spoonacular.com/recipes/complexSearch?apiKey={API_KEY}&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
 
     res = requests.get(f'https://api.spoonacular.com/recipes/complexSearch?apiKey=e7716122fcea490aa1c5a7f3c8a9b7e2&includeIngredients={recipe_input}&diet={diet_input}&intolerances={intolerance_input}&query={dish_type_input}&maxReadyTime={time_input}&addRecipeInformation=true&fillIngredients=true&instructionsRequired=true&sort=min-missing-ingredients&number=10')
   
