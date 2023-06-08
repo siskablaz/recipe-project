@@ -29,4 +29,5 @@
 - Save recipes to a favorites page
 - Save ingredients to a shopping list
 - Rate and review recipes
+- Responsive design
 
