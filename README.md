@@ -31,3 +31,23 @@
 - Rate and review recipes
 - Responsive design
 
+## Search for recipes
+
+https://github.com/siskablaz/recipe-project/assets/50636053/0ecdf370-545a-4bdd-b838-6df6673ac727
+
+
+## Save ingredients
+
+https://github.com/siskablaz/recipe-project/assets/50636053/44349474-9249-4f56-be36-80d454299ea5
+
+
+## Review recipes
+
+https://github.com/siskablaz/recipe-project/assets/50636053/15b5bb37-b3bb-43a0-bedd-3278d5b9756a
+
+
+## Edit your shopping list
+
+https://github.com/siskablaz/recipe-project/assets/50636053/eba11da0-daa6-43bc-aaaf-78f2fa3b8212
+
+
