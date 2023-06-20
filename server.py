@@ -534,13 +534,13 @@ def add_shopping():
     
 
     if logged_in_email is None:
-        flash("You must be logged in to add to shopping list")
+        # flash("You must be logged in to add to shopping list")
         # This needs to be corrected
         return (f'You must be logged in to add to shopping list')
     else:
         user = crud.get_user_by_email(logged_in_email)
         if user is None:
-            flash(f'You must be logged in to add to shopping list')
+            # flash(f'You must be logged in to add to shopping list')
         # This needs to be corrected
             return (f'You must be logged in to add to shopping list')
         else:
@@ -579,7 +579,7 @@ def shopping_list_page():
     user = crud.get_user_by_email(logged_in_email)
     
     if user is None:
-        flash("You must log in to save a recipe to favorites")
+        flash("You must log in to view your Shopping Cart")
         return redirect("/login-page")
 
     else:
@@ -681,7 +681,7 @@ def update_rating():
 
 @app.route("/recipes/<recipe_id>/ratings", methods=["POST"])
 def create_rating(recipe_id):
-    """Create a new rating for the movie."""
+    """Create a new rating for the recipe Functioning"""
 
     logged_in_email = session.get("user_email")
     rating_score = request.form.get("rating")

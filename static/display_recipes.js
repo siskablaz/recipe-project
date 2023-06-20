@@ -108,10 +108,11 @@ function addFavorite(recipe_id, page, event) {
           event.target.innerHTML = `+ ${event.target.value}`;
           console.log(event.target.innerHTML);
         }
-        else {
+        else if (responseMsg == 'Adding to Shopping list'){
           event.target.innerHTML = `-  ${event.target.value}`;
           console.log(event.target.innerHTML);
         }
+
   
       }
       

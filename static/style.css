@@ -1,6 +1,6 @@
 .background {
-  background-image: url("./images/wooden-wall-scratched-material-background-texture-concept.jpg");
-  opacity: .3;
+  background-image: url("./images/red-whole-sliced-onion-fresh-onion-isolated-white-surface-with-clipping-path-sliced-red-onion-with-parsley-white.jpg");
+  opacity: .2;
   position: fixed;
   width: 100%;
   z-index: -1;
@@ -40,6 +40,12 @@ h2 {
   font-weight: 700;
 }
 
+.display-recipes-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
 
 .btn:hover{
 background-color: #f87000;
@@ -196,13 +202,15 @@ body{
 .txt4{
   font-size:22px;
   position: relative;
-  top: 39px;
+  top: 40px;
 }
 .txt5{
   position: relative;
   top: 25px;
   color: #7e7e7e;
   font-size: 23px;
+  top: 43px;
+  margin: 2rem 0;
 }
 .txt2{
   position: relative;

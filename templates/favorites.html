@@ -15,7 +15,7 @@
 {% if recipes|length == 0 %}
 <h4 style="text-align: center; color: gray;">You have no recipes saved to Favorites</h4>
 {% endif %}
-            <div class="container">
+            <div class="display-recipes-container">
                 {% for recipe in recipes %}
                
             
@@ -42,8 +42,8 @@
                             {{ recipe.title }}
                           </a>
                           </p>
-                          <p class="txt5">Ready time: {{recipe.ready_minutes}}</p>
-                          <p class="txt2">Ingredients: {{recipe.ingredients|length}}</p>
+                          <p class="txt5" style="">Ready time: {{recipe.ready_minutes}}</p>
+                          <!-- <p class="txt2">Ingredients: {{recipe.ingredients|length}}</p> -->
                           
                           
                           
@@ -64,7 +64,7 @@
             
                   </div>
                   <div class="footer">
-                    <span >Ingredients: {{recipe.ingredients|length}}</span>
+                    <span style="font-weight:700;">Ingredients: {{recipe.ingredients|length}}</span>
                     <p class="txt3" style="display: flex; justify-content: space-between;">
                         <a style="color: gray;"id="res-fav-{{recipe.recipe_id}}-div" style="margin-right: 7px;">❤ {{recipe.fav_recipes|length}}</a> 
                         <a style="text-decoration: none; color: gray;" href="/recipes/{{ recipe.recipe_id }}" ><i style="margin-right: 7px;" class="bi bi-book"></i>Details</a>
